@@ -66,6 +66,11 @@ body {
 .button-secondary:active {
     transform: translateY(0);
 }
+.button-secondary:disabled {
+    background-color: #e2e8f0; /* Light gray, same as normal for consistency */
+    color: #a0aec0; /* Lighter text color to indicate disabled state */
+    cursor: not-allowed;
+}
 .feedback-correct {
     color: #10b981; /* Green */
     font-weight: 600;

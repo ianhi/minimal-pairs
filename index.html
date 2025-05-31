@@ -35,15 +35,15 @@
 
         <div class="flex flex-col md:flex-row justify-center gap-4 mt-6">
             <button id="submitGuessButton" class="button-primary w-full md:w-auto" disabled>Submit Guess</button>
-            <button id="nextButton" class="button-secondary w-full md:w-auto" disabled>Next Pair</button>
-            <button id="resetButton" class="button-secondary w-full md:w-auto">Reset Game</button>
+            <button id="nextButton" class="button-secondary w-full md:w-auto" disabled>Skip Pair <span id="skipEmoji">⏭️</span></button>
         </div>
 
         <div class="text-lg text-gray-700 mt-4">
             Score: <span id="score">0</span> / <span id="totalAttempts">0</span>
         </div>
 
-        <div class="flex flex-row justify-center gap-4 mt-6 mx-auto w-full max-w-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 mx-auto w-full max-w-md">
+            <button id="resetButton" class="button-secondary flex items-center justify-center gap-2">Reset Game <span id="resetEmoji">🔄</span></button>
             <button id="settingsButton" class="button-secondary flex-1 flex items-center justify-center gap-2">
                 Settings <span id="settingsEmoji">⚙️</span>
             </button>
@@ -71,6 +71,14 @@
                 <div class="modal-setting-item">
                     <label for="modalAutoPlayDelay">Auto-play delay (ms)</label>
                     <input type="number" id="modalAutoPlayDelay" min="0" value="100">
+                </div>
+                <div class="modal-setting-item">
+                    <label for="modalSpeechRate">Speech Rate (0.1-10)</label>
+                    <input type="number" id="modalSpeechRate" min="0.1" max="10" step="0.1" value="1.0">
+                </div>
+                <div class="modal-setting-item">
+                    <label for="modalSpeechPitch">Speech Pitch (0-2)</label>
+                    <input type="number" id="modalSpeechPitch" min="0" max="2" step="0.1" value="1.0">
                 </div>
                 <div class="radio-group">
                     <label class="text-base text-gray-700">Bengali Accent:</label>
@@ -109,6 +117,7 @@
         </div>
     </div>
 
-    <script src="script.js" defer></script>
+    <script src="minimal_pairs_data.js"></script> <!-- Load data first -->
+    <script src="script.js" defer></script>     <!-- Then load the main script -->
 </body>
 </html>

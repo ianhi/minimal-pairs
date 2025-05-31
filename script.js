@@ -1,21 +1,5 @@
 
 // /Users/ian/Documents/bangla/minimal-pairs/script.js
-// Define an array of Bengali minimal pairs.
-// IMPORTANT: Each pair now needs a 'type' property.
-const allMinimalPairsData = [
-    { words: ['চাল', 'ছাল'], transliterations: ['chaal', 'chhaal'], type: "Aspirated vs. Unaspirated Consonants" },
-    { words: ['জল', 'দল'], transliterations: ['jol', 'dol'], type: "Alveolar vs. Dental Consonants" },
-    { words: ['কাল', 'খাল'], transliterations: ['kaal', 'khaal'], type: "Aspirated vs. Unaspirated Consonants" },
-    { words: ['ভাত', 'হাত'], transliterations: ['bhaat', 'haat'], type: "Voiced vs. Voiceless Consonants (Initial)" },
-    { words: ['বাঘ', 'ভাগ'], transliterations: ['bagh', 'bhag'], type: "Aspirated vs. Unaspirated Consonants" },
-    { words: ['দিন', 'দীন'], transliterations: ['din', 'deen'], type: "Short vs. Long Vowels" },
-    { words: ['আশা', 'আঁশা'], transliterations: ['asha', 'ãsha'], type: "Oral vs. Nasalized Vowels" },
-    { words: ['কান', 'খান'], transliterations: ['kan', 'khan'], type: "Aspirated vs. Unaspirated Consonants" },
-    { words: ['শাপ', 'সাপ'], transliterations: ['shaap', 'saap'], type: "Sibilant Consonants (শ vs স)" },
-    { words: ['ফুল', 'ফাল'], transliterations: ['phul', 'phaal'], type: "Vowel Contrast (উ vs আ)" },
-    { words: ['পাকা', 'পাখা'], transliterations: ['paka', 'pakha'], type: "Aspirated vs. Unaspirated Consonants" },
-    { words: ['বেল', 'ভেল'], transliterations: ['bel', 'bhel'], type: "Voiced vs. Voiceless Consonants (Initial)" } // Example: b vs bh (though bhel is less common)
-];
 
 let currentPair = null;
 let correctWord = null;
@@ -32,12 +16,16 @@ let playGuessOnClick = true; // Corresponds to the toggle
 let autoPlayNextWord = true; // New setting
 let autoPlayDelay = 100;     // New setting (in ms)
 let bengaliAccent = 'bn-IN'; // Default to Kolkata style
+let speechRate = 1.0;        // Default speech rate
+let speechPitch = 1.0;       // Default speech pitch
 
 // Emojis for playback status
 const playingEmoji = '🔊'; // Speaker with sound waves
 const stoppedEmoji = '🔈'; // Speaker without sound waves
 const settingsEmoji = '⚙️'; // Gear emoji for settings button
 const historyEmoji = '📚'; // Books emoji for history button
+const skipEmoji = '⏭️';    // Skip track emoji
+const resetEmoji = '🔄';   // Reset emoji
 
 // Get DOM elements
 const playButton = document.getElementById('playButton');
@@ -61,6 +49,8 @@ const modalPlayGuessToggle = document.getElementById('modalPlayGuessToggle');
 const modalAutoPlayNextWordToggle = document.getElementById('modalAutoPlayNextWordToggle');
 const modalAutoPlayDelay = document.getElementById('modalAutoPlayDelay');
 const cancelSettingsButton = document.getElementById('cancelSettings');
+const modalSpeechRate = document.getElementById('modalSpeechRate');
+const modalSpeechPitch = document.getElementById('modalSpeechPitch');
 const saveSettingsButton = document.getElementById('saveSettings');
 const accentKolkataRadio = document.getElementById('accentKolkata');
 const accentBangladeshRadio = document.getElementById('accentBangladesh');
@@ -81,7 +71,11 @@ function setButtonContent(button, emoji) {
     // Get the original text from data-original-text if available, otherwise from textContent directly
     // Regex to remove any existing emojis before setting new content
     const originalText = button.dataset.originalText || button.textContent.replace(/[\u{1F50A}\u{1F509}\u{2699}\u{FE0F}\u{1F4DA}]/gu, '').trim();
-    button.innerHTML = `${originalText} ${emoji}`;
+    if (emoji) { // Only add emoji if one is provided
+        button.innerHTML = `${originalText} ${emoji}`;
+    } else {
+        button.innerHTML = originalText; // Otherwise, just the text
+    }
 }
 
 /**
@@ -128,7 +122,7 @@ function startNewRound() {
     feedbackDiv.textContent = ''; // Clear feedback text
     feedbackDiv.className = 'text-xl mt-4'; // Reset feedback div classes
     playingStatusDiv.classList.add('hidden'); // Ensure text indicator is hidden
-    nextButton.disabled = true;
+    // nextButton (Skip Pair) will be enabled, submitGuessButton will be disabled.
     submitGuessButton.disabled = true;
     playButton.disabled = false;
     isPlaying = false;
@@ -136,6 +130,11 @@ function startNewRound() {
     userSelectedButton = null;
 
     if (currentFilteredPairs.length === 0) {
+        // Ensure "Skip Pair" button is also handled in this case
+        nextButton.disabled = true;
+        nextButton.textContent = "Skip Pair"; // Reset text
+        setButtonContent(nextButton, skipEmoji); // Ensure emoji is present
+        submitGuessButton.textContent = "Submit Guess"; // Reset text
         const selectedType = typeSelectElement.options[typeSelectElement.selectedIndex]?.text || "selected type";
         disableGameControls(`No minimal pairs available for "${selectedType}". Please select another type or "All Types".`);
         return;
@@ -148,6 +147,14 @@ function startNewRound() {
     // Disable word choice buttons initially (until word is played)
     word1Button.disabled = true;
     word2Button.disabled = true;
+
+    // Configure buttons for a new round
+    submitGuessButton.textContent = "Submit Guess";
+    submitGuessButton.disabled = true;
+    // nextButton is the "Skip Pair" button
+    nextButton.dataset.originalText = "Skip Pair"; // Set original text for emoji handling
+    setButtonContent(nextButton, skipEmoji);
+    nextButton.disabled = false; // "Skip Pair" should be enabled
     playButton.disabled = false; // Ensure play button is enabled if pairs are available
 
     // Select a random minimal pair from the filtered list
@@ -155,21 +162,23 @@ function startNewRound() {
     currentPair = currentFilteredPairs[randomIndex];
 
     // Randomly assign words to buttons
-    const shuffledWords = [...currentPair.words].sort(() => Math.random() - 0.5);
+    const shuffledWords = [...currentPair].sort(() => Math.random() - 0.5); // currentPair is now the array of words
     word1Button.textContent = shuffledWords[0];
     word2Button.textContent = shuffledWords[1];
 
     // Store original text for buttons (important for emoji toggling)
     word1Button.dataset.originalText = shuffledWords[0];
     word2Button.dataset.originalText = shuffledWords[1];
-    playButton.dataset.originalText = 'Play Word'; // Ensure play button original text is stored
+    playButton.dataset.originalText = 'Play Word'; 
+    resetButton.dataset.originalText = 'Reset Game'; // For reset button emoji
+    setButtonContent(resetButton, resetEmoji);
 
     // Set initial button contents with or without emoji based on toggle state
     setButtonContent(playButton, ''); // Play button never starts with emoji
     applyWordButtonEmojis(); // Apply emojis based on current playGuessOnClick setting
 
     // Randomly choose which word will be "played" as the correct answer
-    correctWord = currentPair.words[Math.floor(Math.random() * currentPair.words.length)];
+    correctWord = currentPair[Math.floor(Math.random() * currentPair.length)]; // currentPair is the array of words
 
     console.log('New round started. Correct word:', correctWord); // For debugging
 }
@@ -204,6 +213,8 @@ function speakWord(word, originatorButton, onEndCallback) {
     if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(word); // Use the pure word passed in
         utterance.lang = bengaliAccent; // Use the selected accent
+        utterance.rate = speechRate;   // Apply custom rate
+        utterance.pitch = speechPitch; // Apply custom pitch
 
         const voices = window.speechSynthesis.getVoices();
         // Prioritize finding a voice that matches the selected accent
@@ -327,7 +338,6 @@ function playCorrectWord() {
  */
 function processGuess(chosenWord, chosenButton) {
     totalAttempts++;
-    nextButton.disabled = false; // Enable next button after guess is processed
     submitGuessButton.disabled = true; // Disable submit button after processing
 
     let isCorrect = false;
@@ -356,7 +366,7 @@ function processGuess(chosenWord, chosenButton) {
 
     // Add to history
     gameHistory.push({
-        pair: [word1Button.dataset.originalText, word2Button.dataset.originalText],
+        pair: [...currentPair], // Store the actual pair from currentPair
         correct: correctWord,
         guessed: chosenWord,
         isCorrect: isCorrect
@@ -371,6 +381,12 @@ function processGuess(chosenWord, chosenButton) {
     // Reset emojis on all buttons to stopped state after guess is processed
     setButtonContent(playButton, ''); // Play button goes back to just text
     applyWordButtonEmojis(); // Reapply emojis based on current playGuessOnClick setting
+
+    // Change "Submit Guess" button to "Next Pair"
+    submitGuessButton.textContent = "Next Pair";
+    submitGuessButton.disabled = false; // Enable it for "Next Pair" action
+    setButtonContent(nextButton, skipEmoji); // Ensure skip emoji is still there, even if disabled
+    nextButton.disabled = true; // Disable "Skip Pair" button now
 }
 
 /**
@@ -382,7 +398,8 @@ function processGuess(chosenWord, chosenButton) {
 function handleChoice(chosenWordTextContent, chosenButton) {
     // If a guess has already been submitted (nextButton is enabled),
     // this click is purely for replaying the sound.
-    if (!nextButton.disabled) {
+    // We check if submitGuessButton is "Next Pair" to know if guess was submitted
+    if (submitGuessButton.textContent.includes("Next Pair")) {
         speakWord(chosenButton.dataset.originalText, chosenButton, null); // Use originalText for replay
         return;
     }
@@ -410,25 +427,6 @@ function handleChoice(chosenWordTextContent, chosenButton) {
     if (playGuessOnClick) {
         speakWord(chosenButton.dataset.originalText, chosenButton, null); // Use originalText for playing guess
     }
-}
-
-/**
- * Submits the user's selected guess.
- */
-function submitGuess() {
-    if (!userSelectedWord || !userSelectedButton) {
-        console.warn("No word selected to submit.");
-        return;
-    }
-
-    // Disable submit button during processing
-    submitGuessButton.disabled = true;
-    // Disable word choice buttons temporarily (they will be re-enabled by processGuess)
-    word1Button.disabled = true;
-    word2Button.disabled = true;
-
-    // Directly process the guess, without playing sound again
-    processGuess(userSelectedWord, userSelectedButton);
 }
 
 /**
@@ -465,18 +463,17 @@ function populateTypeDropdown() {
     allOption.textContent = 'All Types';
     typeSelectElement.appendChild(allOption);
 
-    const types = new Set();
-    allMinimalPairsData.forEach(pair => {
-        if (pair.type) {
-            types.add(pair.type);
-        }
-    });
+    // Get types from the keys of the allMinimalPairsData object
+    const types = Object.keys(allMinimalPairsData).sort();
 
-    Array.from(types).sort().forEach(type => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.textContent = type;
-        typeSelectElement.appendChild(option);
+    types.forEach(type => {
+        // Only add the type to dropdown if it has pairs
+        if (allMinimalPairsData[type] && allMinimalPairsData[type].length > 0) {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            typeSelectElement.appendChild(option);
+        }
     });
     typeSelectElement.value = 'All'; // Default to "All"
 }
@@ -486,7 +483,13 @@ function populateTypeDropdown() {
  */
 function handleTypeChange() {
     const selectedType = typeSelectElement.value;
-    currentFilteredPairs = (selectedType === 'All') ? [...allMinimalPairsData] : allMinimalPairsData.filter(pair => pair.type === selectedType);
+    if (selectedType === 'All') {
+        // Flatten all arrays of pairs from all types
+        currentFilteredPairs = Object.values(allMinimalPairsData).flat();
+    } else {
+        // Get pairs for the specific type, or an empty array if the type doesn't exist (should not happen with populated dropdown)
+        currentFilteredPairs = allMinimalPairsData[selectedType] || [];
+    }
     resetGame(); // Reset score and start a new round with the filtered pairs
 }
 
@@ -499,6 +502,8 @@ function openSettingsModal() {
     modalPlayGuessToggle.checked = playGuessOnClick;
     modalAutoPlayNextWordToggle.checked = autoPlayNextWord;
     modalAutoPlayDelay.value = autoPlayDelay;
+    modalSpeechRate.value = speechRate;
+    modalSpeechPitch.value = speechPitch;
     modalAutoPlayDelay.disabled = !autoPlayNextWord; // Disable delay if auto-play is off
 
     // Set radio button based on current accent
@@ -525,6 +530,8 @@ function saveSettings() {
     playGuessOnClick = modalPlayGuessToggle.checked;
     autoPlayNextWord = modalAutoPlayNextWordToggle.checked;
     autoPlayDelay = parseInt(modalAutoPlayDelay.value, 10);
+    speechRate = parseFloat(modalSpeechRate.value);
+    speechPitch = parseFloat(modalSpeechPitch.value);
 
     // Get selected accent
     if (accentKolkataRadio.checked) {
@@ -538,6 +545,16 @@ function saveSettings() {
         autoPlayDelay = 0;
         modalAutoPlayDelay.value = 0;
     }
+
+    // Validate and clamp speechRate (0.1 to 10)
+    if (isNaN(speechRate) || speechRate < 0.1) speechRate = 0.1;
+    if (speechRate > 10) speechRate = 10;
+    modalSpeechRate.value = speechRate;
+
+    // Validate and clamp speechPitch (0 to 2)
+    if (isNaN(speechPitch) || speechPitch < 0) speechPitch = 0;
+    if (speechPitch > 2) speechPitch = 2;
+    modalSpeechPitch.value = speechPitch;
 
     // Apply changes to button emojis immediately
     applyWordButtonEmojis();
@@ -561,7 +578,7 @@ function openHistoryModal() {
             const statusEmoji = entry.isCorrect ? '✅' : '❌';
 
             historyItem.innerHTML = `
-                <strong>${index + 1}.</strong> Pair: ${entry.pair[0]} / ${entry.pair[1]}<br>
+                <strong>${index + 1}.</strong> Pair: ${entry.pair.join(' / ')}<br>
                 Guessed: <span class="${statusClass}">${entry.guessed}</span> ${statusEmoji}<br>
                 Correct: <span class="correct-answer">${entry.correct}</span>
             `;
@@ -586,6 +603,32 @@ function clearHistory() {
     openHistoryModal(); // Refresh the modal to show it's empty
 }
 
+// --- Combined Event Handler for Submit/Next ---
+/**
+ * Handles click on the button that is either "Submit Guess" or "Next Pair".
+ */
+function handleSubmitGuessOrNext() {
+    if (submitGuessButton.textContent.includes("Submit Guess")) {
+        if (!userSelectedWord || !userSelectedButton) {
+            console.warn("No word selected to submit.");
+            return;
+        }
+        // Disable button during processing, re-enabled by processGuess or if error
+        submitGuessButton.disabled = true;
+        word1Button.disabled = true; // Temporarily disable choices
+        word2Button.disabled = true;
+        processGuess(userSelectedWord, userSelectedButton);
+    } else { // Button is "Next Pair"
+        window.speechSynthesis.cancel();
+        // Logic for starting the next round (same as original nextButton)
+        if (autoPlayNextWord) {
+            setTimeout(() => { startNewRound(); playCorrectWord(); }, autoPlayDelay);
+        } else {
+            startNewRound();
+        }
+    }
+}
+
 // Event Listeners
 playButton.addEventListener('click', playCorrectWord);
 
@@ -597,10 +640,12 @@ word2Button.addEventListener('click', () => {
     handleChoice(word2Button.textContent, word2Button);
 });
 
-submitGuessButton.addEventListener('click', submitGuess);
+submitGuessButton.addEventListener('click', handleSubmitGuessOrNext);
 
-nextButton.addEventListener('click', () => {
-    window.speechSynthesis.cancel(); // Stop any ongoing speech before next round
+nextButton.addEventListener('click', () => { // This is now the "Skip Pair" button
+    window.speechSynthesis.cancel(); 
+    // No need to change text or emoji here, it's always "Skip Pair" + emoji
+    // Its disabled state is handled by startNewRound and processGuess
     if (autoPlayNextWord) {
         // Add a small delay before starting the new round and playing the word
         setTimeout(() => {
@@ -612,7 +657,10 @@ nextButton.addEventListener('click', () => {
     }
 });
 
-resetButton.addEventListener('click', resetGame);
+resetButton.addEventListener('click', () => {
+    setButtonContent(resetButton, resetEmoji); // Ensure emoji is reapplied if it was somehow removed
+    resetGame();
+});
 settingsButton.addEventListener('click', openSettingsModal);
 historyButton.addEventListener('click', openHistoryModal); // New history button listener
 
@@ -633,11 +681,19 @@ typeSelectElement.addEventListener('change', handleTypeChange);
 
 // Initial setup when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    if (allMinimalPairsData.length === 0) {
+    // Check if there are any pairs in any type
+    const hasAnyPairs = Object.values(allMinimalPairsData).some(typeArray => typeArray.length > 0);
+
+    if (!hasAnyPairs) {
         disableGameControls("No minimal pairs loaded. Please check the data source.");
     } else {
         populateTypeDropdown(); // Populate dropdown first
         handleTypeChange();     // Then handle initial type selection (which calls resetGame -> startNewRound)
+        // Set initial emojis for buttons that have them permanently
+        settingsButton.dataset.originalText = "Settings";
+        setButtonContent(settingsButton, settingsEmoji);
+        historyButton.dataset.originalText = "History";
+        setButtonContent(historyButton, historyEmoji);
     }
 });
 
