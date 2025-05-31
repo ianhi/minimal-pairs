@@ -1,0 +1,365 @@
+
+/* /Users/ian/Documents/bangla/minimal-pairs/style.css */
+body {
+    font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+    background-color: #f0f4f8; /* Light blue-gray background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* Needed for modal positioning */
+}
+.container {
+    background-color: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.bengali-text {
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-size: 2.5rem; /* Larger font size for Bengali words */
+    font-weight: 700;
+    color: #2c3e50; /* Darker text color */
+}
+.button-primary {
+    background-color: #3b82f6; /* Blue */
+    color: white;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    border: none;
+}
+.button-primary:hover {
+    background-color: #2563eb; /* Darker blue */
+    transform: translateY(-2px);
+}
+.button-primary:active {
+    transform: translateY(0);
+}
+.button-secondary {
+    background-color: #e2e8f0; /* Light gray */
+    color: #4a5568; /* Darker gray text */
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    border: none;
+}
+.button-secondary:hover {
+    background-color: #cbd5e0; /* Medium gray */
+    transform: translateY(-2px);
+}
+.button-secondary:active {
+    transform: translateY(0);
+}
+.feedback-correct {
+    color: #10b981; /* Green */
+    font-weight: 600;
+}
+.feedback-incorrect {
+    color: #ef4444; /* Red */
+    font-weight: 600;
+}
+.playing-indicator {
+    color: #f59e0b; /* Amber */
+    font-weight: 600;
+    margin-top: 10px;
+}
+.word-button {
+    background-color: #f8fafc; /* Very light blue-gray */
+    color: #2c3e50;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 1.875rem; /* Large font for word choices */
+    font-family: 'Noto Sans Bengali', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid #e2e8f0;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    display: flex; /* Use flexbox to align text and emoji */
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Space between text and emoji */
+}
+.word-button:hover {
+    background-color: #eff6ff; /* Lighter blue on hover */
+    border-color: #bfdbfe; /* Light blue border on hover */
+    transform: translateY(-2px);
+}
+.word-button:active {
+    transform: translateY(0);
+}
+.word-button.selected {
+    border-color: #3b82f6; /* Blue border when selected */
+    background-color: #dbeafe; /* Light blue background when selected */
+}
+/* Styles for the toggle switch */
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.toggle-switch input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+    outline: none;
+}
+.toggle-switch input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    top: 1px;
+    left: 1px;
+    transition: transform 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.toggle-switch input[type="checkbox"]:checked {
+    background: #3b82f6; /* Blue when checked */
+}
+.toggle-switch input[type="checkbox"]:checked::before {
+    transform: translateX(20px);
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 450px;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    position: relative;
+}
+.modal-overlay.show .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+}
+.modal-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+.modal-close-button {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #718096;
+    transition: color 0.2s;
+}
+.modal-close-button:hover {
+    color: #4a5568;
+}
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start; /* Align settings to the left */
+}
+.modal-setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.modal-setting-item label {
+    font-size: 1rem;
+    color: #4a5568;
+    flex-grow: 1;
+    text-align: left;
+}
+.modal-setting-item input[type="number"] {
+    width: 80px;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    text-align: center;
+    transition: border-color 0.2s;
+}
+.modal-setting-item input[type="number"]:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+.modal-footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
+}
+/* Custom Tailwind classes for feedback colors */
+.bg-green-500-custom {
+    background-color: #22c55e !important; /* Tailwind green-500 */
+    border-color: #16a34a !important; /* Darker green border */
+    color: white !important; /* Ensure text is readable */
+}
+.bg-red-500-custom {
+    background-color: #ef4444 !important; /* Tailwind red-500 */
+    border-color: #dc2626 !important; /* Darker red border */
+    color: white !important; /* Ensure text is readable */
+}
+/* Base button color to revert to */
+.bg-base-color {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    color: #2c3e50 !important;
+}
+/* Styles for radio buttons */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: flex-start;
+}
+.radio-group div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.radio-group input[type="radio"] {
+    /* Basic styling for radio button */
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cbd5e0;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s;
+}
+.radio-group input[type="radio"]:checked {
+    border-color: #3b82f6;
+}
+.radio-group input[type="radio"]:checked::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    transform: translate(-50%, -50%);
+}
+.radio-group label {
+    cursor: pointer;
+}
+
+/* History modal specific styles */
+.history-list {
+    max-height: 300px; /* Limit height for scrollability */
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fdfdfd;
+}
+.history-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #4a5568;
+}
+.history-item:last-child {
+    border-bottom: none;
+}
+.history-item span {
+    font-weight: 600;
+}
+.history-item .correct-answer {
+    color: #10b981; /* Green */
+}
+.history-item .wrong-answer {
+    color: #ef4444; /* Red */
+}
+
+/* Ensure feedback div has a consistent height to prevent layout shifts */
+#feedback {
+    min-height: 1.5em; /* Adjust as needed based on font size of feedback text */
+    margin-top: 4px; /* Maintain original margin-top */
+    margin-bottom: 4px; /* Add a small margin-bottom to keep spacing consistent */
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 24px;
+        gap: 16px;
+    }
+    .bengali-text {
+        font-size: 2rem;
+    }
+    .button-primary, .button-secondary {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+    .word-button {
+        font-size: 1.5rem;
+        padding: 14px 20px;
+    }
+    .modal-content {
+        padding: 20px;
+    }
+    .modal-header h2 {
+        font-size: 1.5rem;
+    }
+}
