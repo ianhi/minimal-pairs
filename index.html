@@ -117,6 +117,24 @@
         </div>
     </div>
 
+    <div id="dataErrorModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Data Loading Error</h2>
+                <!-- No close button for this modal, user must acknowledge -->
+            </div>
+            <div class="modal-body">
+                <p id="dataErrorModalMessage" class="text-gray-700 text-left">
+                    Could not load the minimal pairs data required for the application to run.
+                    Please try refreshing the page. If the problem persists, please check the browser console for more details.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="button-primary" id="dataErrorModalOkButton">OK</button>
+            </div>
+        </div>
+    </div>
+
     <script src="minimal_pairs_data.js"></script> <!-- Load data first -->
     <script src="script.js" defer></script>     <!-- Then load the main script -->
 </body>

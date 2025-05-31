@@ -61,6 +61,10 @@ const historyListDiv = document.getElementById('historyList');
 const clearHistoryButton = document.getElementById('clearHistoryButton');
 const okHistoryButton = document.getElementById('okHistoryButton');
 
+// Data Error Modal elements
+const dataErrorModal = document.getElementById('dataErrorModal');
+const dataErrorModalMessage = document.getElementById('dataErrorModalMessage'); // If you want to customize message
+const dataErrorModalOkButton = document.getElementById('dataErrorModalOkButton');
 
 /**
  * Sets the content of a button, ensuring original text is preserved for data-original-text.
@@ -603,6 +607,21 @@ function clearHistory() {
     openHistoryModal(); // Refresh the modal to show it's empty
 }
 
+// --- Data Error Modal Logic ---
+/**
+ * Shows the data loading error modal.
+ * @param {string} message - Optional message to display.
+ */
+function showDataErrorModal(message) {
+    if (message && dataErrorModalMessage) dataErrorModalMessage.textContent = message;
+    if (dataErrorModal) dataErrorModal.classList.add('show');
+}
+
+/** Closes the data loading error modal. */
+function closeDataErrorModal() {
+    if (dataErrorModal) dataErrorModal.classList.remove('show');
+}
+
 // --- Combined Event Handler for Submit/Next ---
 /**
  * Handles click on the button that is either "Submit Guess" or "Next Pair".
@@ -678,14 +697,25 @@ modalAutoPlayNextWordToggle.addEventListener('change', () => {
 });
 
 typeSelectElement.addEventListener('change', handleTypeChange);
+if (dataErrorModalOkButton) {
+    dataErrorModalOkButton.addEventListener('click', closeDataErrorModal);
+}
 
 // Initial setup when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if there are any pairs in any type
-    const hasAnyPairs = Object.values(allMinimalPairsData).some(typeArray => typeArray.length > 0);
+    console.log("DOM Content Loaded. Checking data..."); // Debug log
 
+    // Check if there are any pairs in any type
+    let hasAnyPairs = false;
+    if (typeof allMinimalPairsData === 'object' && allMinimalPairsData !== null) {
+        hasAnyPairs = Object.values(allMinimalPairsData).some(typeArray => Array.isArray(typeArray) && typeArray.length > 0);
+    }
+    
     if (!hasAnyPairs) {
-        disableGameControls("No minimal pairs loaded. Please check the data source.");
+        console.error("No minimal pairs data found or data is empty."); // Debug log
+        const errorMessage = "Could not load the minimal pairs data required for the application to run. Please try refreshing the page. If the problem persists, please check the browser console for more details.";
+        disableGameControls(errorMessage); // Still disable controls in the background
+        showDataErrorModal(errorMessage);  // Show the modal
     } else {
         populateTypeDropdown(); // Populate dropdown first
         handleTypeChange();     // Then handle initial type selection (which calls resetGame -> startNewRound)
