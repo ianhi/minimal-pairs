@@ -116,6 +116,8 @@ const userSelectedWord = ref(null);
 const userSelectedButtonElement = ref(null);
 const gameHistory = ref([]);
 const currentFilteredPairs = ref([]);
+const nextPairToPrefetch = ref(null); // Stores the {pair, audioBasePath} for the *next* round
+
 
 const settings = reactive({
     playGuessOnClick: true,
@@ -147,6 +149,10 @@ let currentPlayback = reactive({
     wordObject: null,
     isMP3: false
 });
+
+// Refs for managing prefetch link elements
+const prefetchLinkWord1 = ref(null);
+const prefetchLinkWord2 = ref(null);
 
 const word1 = computed(() => currentPair.value ? currentPair.value.find(p => p[0] === shuffledWords.value[0]?.[0]) : null);
 const word2 = computed(() => currentPair.value ? currentPair.value.find(p => p[0] === shuffledWords.value[1]?.[0]) : null);
@@ -243,6 +249,8 @@ function populateTypeDropdown() {
 function handleTypeChange() {
     if (!activeMinimalPairsData.value) return;
     currentFilteredPairs.value = [];
+    nextPairToPrefetch.value = null; // Clear pre-selected next pair
+    updateAudioPrefetchLinks(null, null, null); // Clear prefetch links
     const type = selectedType.value;
 
     if (type === 'All') {
@@ -266,6 +274,41 @@ function handleTypeChange() {
     resetGame();
 }
 
+function updateAudioPrefetchLinks(word1Obj, word2Obj, audioBasePath) {
+    // Remove existing prefetch links managed by this component
+    if (prefetchLinkWord1.value && prefetchLinkWord1.value.parentNode) {
+        document.head.removeChild(prefetchLinkWord1.value);
+        prefetchLinkWord1.value = null;
+    }
+    if (prefetchLinkWord2.value && prefetchLinkWord2.value.parentNode) {
+        document.head.removeChild(prefetchLinkWord2.value);
+        prefetchLinkWord2.value = null;
+    }
+
+    const baseAppUrl = import.meta.env.BASE_URL || '/'; // Ensure base URL ends with a slash if not root
+
+    // Prefetch for word1 if audio is available
+    if (word1Obj && word1Obj[1] && audioBasePath) { // word1Obj[1] is the audioFilenameBase
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = `${baseAppUrl}${audioBasePath}/${word1Obj[1]}.mp3`.replace(/\/\//g, '/'); // Avoid double slashes
+        link.as = 'audio';
+        document.head.appendChild(link);
+        prefetchLinkWord1.value = link;
+        // console.log('Vue: Prefetching audio:', link.href);
+    }
+
+    // Prefetch for word2 if audio is available
+    if (word2Obj && word2Obj[1] && audioBasePath) { // word2Obj[1] is the audioFilenameBase
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = `${baseAppUrl}${audioBasePath}/${word2Obj[1]}.mp3`.replace(/\/\//g, '/'); // Avoid double slashes
+        link.as = 'audio';
+        document.head.appendChild(link);
+        prefetchLinkWord2.value = link;
+        // console.log('Vue: Prefetching audio:', link.href);
+    }
+}
 function startNewRound() {
     feedbackText.value = '';
     feedbackClass.value = 'text-xl mt-4';
@@ -280,22 +323,66 @@ function startNewRound() {
             const currentTypeDisplay = selectedType.value === 'All' ? "All Types" : selectedType.value;
             feedbackText.value = `No minimal pairs available for "${currentTypeDisplay}". Please select another type.`;
         }
+        nextPairToPrefetch.value = null; // No next pair if no current pairs
+        updateAudioPrefetchLinks(null, null, null); // Clear any existing prefetch links
         currentPair.value = null;
         correctWord.value = null;
         shuffledWords.value = [];
         return;
     }
 
-    const randomIndex = Math.floor(Math.random() * currentFilteredPairs.value.length);
-    const pairItem = currentFilteredPairs.value[randomIndex];
+    let pairItem;
+    // Check if nextPairToPrefetch is valid and still in currentFilteredPairs
+    const isNextPairValid = nextPairToPrefetch.value && 
+                           currentFilteredPairs.value.some(pItem => 
+                               pItem.pair === nextPairToPrefetch.value.pair && 
+                               pItem.audioBasePath === nextPairToPrefetch.value.audioBasePath
+                           );
+
+    if (isNextPairValid) {
+        pairItem = nextPairToPrefetch.value;
+        // console.log("Vue: Using pre-selected nextPairForRound:", pairItem.pair.map(p => p[0]));
+        nextPairToPrefetch.value = null; // Clear it as it's now being used
+    } else {
+        const randomIndex = Math.floor(Math.random() * currentFilteredPairs.value.length);
+        pairItem = currentFilteredPairs.value[randomIndex];
+        // console.log("Vue: Randomly selected current pair:", pairItem.pair.map(p => p[0]));
+    }
+
     currentPair.value = pairItem.pair;
     currentPairAudioBasePath.value = pairItem.audioBasePath;
 
     const tempShuffled = [...currentPair.value].sort(() => Math.random() - 0.5);
     shuffledWords.value = tempShuffled;
-
     correctWord.value = currentPair.value[Math.floor(Math.random() * currentPair.value.length)];
-    console.log('New round. Correct word:', correctWord.value);
+
+    // --- Determine and store the *new* next pair for the *subsequent* round, then prefetch it ---
+    if (currentFilteredPairs.value.length > 1) {
+        let potentialNextItem = null;
+        let attempts = 0;
+        const maxAttempts = currentFilteredPairs.value.length * 2;
+
+        do {
+            const nextRandomIndex = Math.floor(Math.random() * currentFilteredPairs.value.length);
+            potentialNextItem = currentFilteredPairs.value[nextRandomIndex];
+            attempts++;
+        } while (potentialNextItem.pair === currentPair.value && attempts < maxAttempts);
+
+        if (potentialNextItem.pair === currentPair.value) { // Still the same after attempts
+            potentialNextItem = currentFilteredPairs.value.find(p => p.pair !== currentPair.value) || null;
+        }
+        nextPairToPrefetch.value = potentialNextItem;
+    } else {
+        nextPairToPrefetch.value = null;
+    }
+
+    if (nextPairToPrefetch.value) {
+        // console.log("Vue: Next pair for prefetch determined:", nextPairToPrefetch.value.pair.map(p => p[0]));
+        updateAudioPrefetchLinks(nextPairToPrefetch.value.pair[0], nextPairToPrefetch.value.pair[1], nextPairToPrefetch.value.audioBasePath);
+    } else {
+        updateAudioPrefetchLinks(null, null, null);
+    }
+    // console.log('Vue: New round. Correct word:', correctWord.value?.[0]);
 }
 
 function speakWord(wordObject, originatorButton, onEndCallback) {
@@ -460,6 +547,8 @@ function resetGame() {
     window.speechSynthesis.cancel();
     score.value = 0;
     totalAttempts.value = 0;
+    nextPairToPrefetch.value = null; // Clear pre-selected next pair
+    updateAudioPrefetchLinks(null, null, null); // Clear prefetch links
     gameHistory.value = []; // Keep history for the session unless cleared via modal
     startNewRound();
 }

@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createWebHistory } from 'vue-router'; // Keep for potential client-side only router, but ViteSSG handles it
 import HomePage from '../views/HomePage.vue';
 import LanguagePractice from '../views/LanguagePractice.vue';
 
-const routes = [
+export const routes = [
     {
         path: '/',
         name: 'Home',
@@ -16,9 +16,11 @@ const routes = [
     },
 ];
 
-const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL), // Or just createWebHistory()
-    routes,
-});
-
-export default router;
+// ViteSSG will handle router creation.
+// We only need to export the routes array.
+// The createRouter call below is removed as ViteSSG handles it.
+// const router = createRouter({
+//     history: createWebHistory(import.meta.env.BASE_URL),
+//     routes,
+// });
+// export default router;

@@ -12,8 +12,8 @@
                     <!-- Bengali Card -->
                     <router-link to="/practice/bn-IN" 
                                  class="language-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out w-full sm:w-1/2 md:w-1/3 lg:w-1/4 cursor-pointer">
-                        <h3 class="text-xl font-semibold text-blue-600">Bengali (বাংলা)</h3>
-                        <p class="text-gray-600 mt-2">Practice distinguishing similar-sounding words in Bengali.</p>
+                        <h3 class="text-xl font-semibold text-blue-600">Bangla (বাংলা) 🇮🇳 </h3>
+                        <p class="text-gray-600 mt-2">Kolkata style Bengali</p>
                     </router-link>
 
                     <!-- Add more language cards here as you support them -->
