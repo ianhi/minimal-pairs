@@ -18,7 +18,7 @@
             </button>
         </div>
 
-        <div id="wordChoices" class="grid grid-cols-2 md:grid-cols-2 gap-4 mt-6">
+        <div id="wordChoices" class="grid grid-cols-2 md:grid-cols-2 gap-4 mt-6 w-full">
             <button id="word1Button" @click="handleChoice(word1, $event.target)" :disabled="!canSelectWord" 
                     :class="getWordButtonClass(word1)" class="word-button">
                 {{ word1?.[0] }} {{ wordButtonEmoji(word1) }}
@@ -513,10 +513,11 @@ onMounted(() => {
 <style scoped>
 /* Styles moved from App.vue, now scoped to LanguagePractice.vue */
 .container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-    font-family: sans-serif;
+    display: block; /* Ensure it's a block-level element for margin:auto centering */
+    width: 100%;    /* Allow it to take full width of its parent initially */
+    max-width: 800px; /* Constrain its maximum width */
+    margin: 2rem auto; /* Center the block and add vertical margin */
+    padding: 1rem;     /* Internal padding */
 }
 
 .modal-overlay.show { /* Assuming modal styles are handled by modal components or globally */

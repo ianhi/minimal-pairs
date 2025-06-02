@@ -1,28 +1,60 @@
+@import "tailwindcss";
 
-/* /Users/ian/Documents/bangla/minimal-pairs/style.css */
-body {
-    font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
-    background-color: #f0f4f8; /* Light blue-gray background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-    position: relative; /* Needed for modal positioning */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  box-sizing: border-box; /* Apply box-sizing to html */
 }
+*, *::before, *::after {
+  box-sizing: inherit; /* Inherit box-sizing for all elements */
+}
+
+/* Reset and base styles */
+html,
+body {
+  margin: 0;
+  padding: 0; /* Ensure no padding on html or body */
+  width: 100%;
+  height: 100%;
+  /*
+    Avoid `overflow-x: hidden;` here initially, as it hides the problem
+    rather than fixing it. Find the overflowing element first.
+    If absolutely necessary after fixing known overflows, it can be used cautiously.
+  */
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans Bengali', sans-serif; /* Merged from second body block */
+  background-color: #f0f4f8; /* From second body block */
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure body takes at least full viewport height */
+  position: relative; /* Needed for modal positioning - from second body block */
+  /* REMOVED from second body block: justify-content: center; align-items: center; padding: 20px; */
+}
+
+#app {
+  flex: 1; /* Allows #app to grow and fill space if body is flex container */
+  width: 100%; /* Ensure #app itself doesn't cause shrinking issues */
+}
+/*
+  The global .container class below provides a default styling.
+  Components like HomePage and LanguagePracticeVue use this class name
+  but apply their own specific max-widths, margins for centering, and paddings
+  either through scoped CSS or Tailwind utility classes.
+  The background, shadow, and flex properties from this global .container
+  will apply if not overridden by more specific styles in the components.
+*/
 .container {
     background-color: #ffffff;
-    padding: 32px;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    /* Layout properties like max-width, width: 100%, padding, margin, display:flex, text-align, gap
+       should be handled by the components themselves using scoped CSS or utility classes (like Tailwind).
+       This global .container is now just for shared appearance. */
 }
 .bengali-text {
     font-family: 'Noto Sans Bengali', sans-serif;
@@ -345,81 +377,6 @@ body {
     margin-bottom: 4px; /* Add a small margin-bottom to keep spacing consistent */
 }
 
-@media (max-width: 640px) {
-    .container {
-        padding: 24px;
-        gap: 16px;
-    }
-    .bengali-text {
-        font-size: 2rem;
-    }
-    .button-primary, .button-secondary {
-        padding: 12px 24px;
-        font-size: 1rem;
-    }
-    .word-button {
-        font-size: 1.5rem;
-        padding: 14px 20px;
-    }
-    .modal-content {
-        padding: 20px;
-    }
-    .modal-header h2 {
-        font-size: 1.5rem;
-    }
-}
-
-/* --- Layout fixes for button groups --- */
-
-/* Word Choice Buttons (#wordChoices) */
-#wordChoices {
-    display: grid;
-    grid-template-columns: 1fr; /* Default to 1 column (stacked) */
-    gap: 1rem; /* Mimics Tailwind's gap-4 (16px) */
-    /* margin-top is handled by .container's gap */
-}
-
-@media (min-width: 768px) { /* Tailwind 'md' breakpoint */
-    #wordChoices {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns side-by-side */
-    }
-}
-
-/* Group for Submit/Next and Skip buttons */
-/* Targets the div in App.vue with classes: "flex flex-col md:flex-row justify-center gap-4 mt-6" */
-/* This selector assumes it's a direct child of .container and contains #submitGuessButton */
-.container > div:has(> #submitGuessButton) {
-    display: flex;
-    flex-direction: column; /* Default: stacked */
-    align-items: center; /* Center items when stacked */
-    justify-content: center;
-    gap: 1rem; /* Mimics Tailwind's gap-4 */
-    /* margin-top is handled by .container's gap */
-}
-
-@media (min-width: 768px) { /* Tailwind 'md' breakpoint */
-    .container > div:has(> #submitGuessButton) {
-        flex-direction: row; /* Side-by-side */
-    }
-}
-
-/* Group for Reset, Settings, History buttons */
-/* Targets the div in App.vue with classes: "grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 mx-auto w-full max-w-md" */
-.container > div:has(> #resetButton) {
-    display: grid;
-    grid-template-columns: 1fr; /* Default: 1 column (stacked) */
-    gap: 1rem; /* Mimics Tailwind's gap-4 */
-    width: 100%;
-    max-width: 28rem; /* Mimics Tailwind's max-w-md (448px) */
-    margin-left: auto; /* Mimics mx-auto */
-    margin-right: auto; /* Mimics mx-auto */
-    /* margin-top is handled by .container's gap */
-}
-@media (min-width: 640px) { /* Tailwind 'sm' breakpoint */
-    .container > div:has(> #resetButton) {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns side-by-side */
-    }
-}
 .word-button.selected {
     border-color: #3b82f6; /* Blue border when selected */
     background-color: #dbeafe; /* Light blue background when selected */
@@ -460,4 +417,25 @@ body {
     padding: 0.5rem; /* Add some padding to options for better readability */
     background-color: #ffffff;
     color: #374151;
+}
+
+/* Responsive adjustments for smaller screens - these are general, components might have more specific ones */
+@media (max-width: 640px) {
+    /* Example: Reduce padding on global .container if it were to have one,
+       but since it doesn't, this media query might not be needed for .container itself.
+       It's here as a placeholder if you decide to add global padding to .container later.
+    .container {
+        padding: 16px;
+    }
+    */
+
+    /* General text size adjustments for smaller screens if needed */
+    .bengali-text { /* This is a global class, so it's fine to adjust here */
+        font-size: 2rem;
+    }
+
+    /* If buttons were globally styled for padding/font-size, adjust here.
+       However, your .button-primary/secondary already have set padding/font-size.
+       Tailwind classes in components will handle responsive button sizing for specific groups.
+    */
 }

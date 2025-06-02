@@ -43,6 +43,10 @@
 }
 /* Add any additional specific styles for the homepage here */
 .container {
-    max-width: 960px;
+    display: block; /* Ensure it's a block-level element for mx-auto */
+    width: 100%;    /* Allow it to take full width of its parent initially */
+    max-width: 960px; /* Constrain its maximum width */
+    /* Centering is handled by 'mx-auto' Tailwind class */
+    /* Padding is handled by 'p-4' Tailwind class */
 }
 </style>
