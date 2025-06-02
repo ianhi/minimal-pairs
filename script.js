@@ -66,6 +66,15 @@ const dataErrorModal = document.getElementById('dataErrorModal');
 const dataErrorModalMessage = document.getElementById('dataErrorModalMessage'); // If you want to customize message
 const dataErrorModalOkButton = document.getElementById('dataErrorModalOkButton');
 
+// Audio Player and state
+let audioPlayer;
+let currentPlayback = {
+    originatorButton: null,
+    onEndCallback: null,
+    wordObject: null, // Stores the word array: [text, audioFilenameBase]
+    isMP3: false      // To know which type of error message to show
+};
+
 /**
  * Sets the content of a button, ensuring original text is preserved for data-original-text.
  * @param {HTMLElement} button - The button element to update.
@@ -166,13 +175,13 @@ function startNewRound() {
     currentPair = currentFilteredPairs[randomIndex];
 
     // Randomly assign words to buttons
-    const shuffledWords = [...currentPair].sort(() => Math.random() - 0.5); // currentPair is now the array of words
-    word1Button.textContent = shuffledWords[0];
-    word2Button.textContent = shuffledWords[1];
+    const shuffledWordObjects = [...currentPair].sort(() => Math.random() - 0.5); // currentPair is an array of word objects
+    word1Button.textContent = shuffledWordObjects[0][0]; // text is at index 0
+    word2Button.textContent = shuffledWordObjects[1][0]; // text is at index 0
 
     // Store original text for buttons (important for emoji toggling)
-    word1Button.dataset.originalText = shuffledWords[0];
-    word2Button.dataset.originalText = shuffledWords[1];
+    word1Button.dataset.originalText = shuffledWordObjects[0][0];
+    word2Button.dataset.originalText = shuffledWordObjects[1][0];
     playButton.dataset.originalText = 'Play Word'; 
     resetButton.dataset.originalText = 'Reset Game'; // For reset button emoji
     setButtonContent(resetButton, resetEmoji);
@@ -182,7 +191,7 @@ function startNewRound() {
     applyWordButtonEmojis(); // Apply emojis based on current playGuessOnClick setting
 
     // Randomly choose which word will be "played" as the correct answer
-    correctWord = currentPair[Math.floor(Math.random() * currentPair.length)]; // currentPair is the array of words
+    correctWord = currentPair[Math.floor(Math.random() * currentPair.length)]; // correctWord is now a word object
 
     console.log('New round started. Correct word:', correctWord); // For debugging
 }
@@ -190,138 +199,114 @@ function startNewRound() {
 /**
  * Plays the audio for a given word using the Web Speech API.
  * Updates the emoji on the originator button during playback.
- * @param {string} word - The pure Bengali word to be spoken.
- * @param {HTMLElement} originatorButton - The button element that initiated the playback.
+ * @param {object} wordObject - The word object {text, audio}.
+ * @param {HTMLElement} originatorButton - The button element that initiated the playback. (wordObject is now an array [text, audioBase])
  * @param {function} onEndCallback - Callback function to execute after speech ends.
  */
-function speakWord(word, originatorButton, onEndCallback) {
+function speakWord(wordObject, originatorButton, onEndCallback) {
     // Always cancel any ongoing speech before starting a new one
+    console.log("speak word called with", wordObject);
     window.speechSynthesis.cancel();
+    if (audioPlayer && !audioPlayer.paused) {
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0; // Reset
+    }
+
+    // Reset global playback state
+    currentPlayback.originatorButton = originatorButton;
+    currentPlayback.onEndCallback = onEndCallback;
+    currentPlayback.wordObject = wordObject; // wordObject is [text, audioFilenameBase]
 
     isPlaying = true;
 
+    // Ensure wordObject is valid before proceeding
+    if (!Array.isArray(wordObject) || typeof wordObject[0] === 'undefined') {
+        console.error("speakWord called with invalid wordObject (expected array [text, audioBase]):", wordObject);
+        finalizePlayback(false); // Treat as an error
+        return;
+    }
     // Only disable word choice and submit buttons if a guess hasn't been submitted yet
     // The playButton itself should always be clickable to replay.
-    if (nextButton.disabled) { // If in selection phase (guess not submitted)
+    // Check if submitGuessButton is in "Submit Guess" state (i.e., guess not made yet)
+    if (submitGuessButton.textContent.includes("Submit Guess")) {
         word1Button.disabled = true;
         word2Button.disabled = true;
         submitGuessButton.disabled = true;
 
         // If the originator is a word button and playGuessOnClick is true,
         // re-enable it immediately so it remains interactive for its sound and visual selection.
-        if (originatorButton.id === 'word1Button' || originatorButton.id === 'word2Button') {
+        if (originatorButton && (originatorButton.id === 'word1Button' || originatorButton.id === 'word2Button')) {
             originatorButton.disabled = false;
         }
     }
-
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(word); // Use the pure word passed in
-        utterance.lang = bengaliAccent; // Use the selected accent
-        utterance.rate = speechRate;   // Apply custom rate
-        utterance.pitch = speechPitch; // Apply custom pitch
-
-        const voices = window.speechSynthesis.getVoices();
-        // Prioritize finding a voice that matches the selected accent
-        const selectedVoice = voices.find(voice => voice.lang === bengaliAccent);
-        if (selectedVoice) {
-            utterance.voice = selectedVoice;
-        } else {
-            console.warn(`Voice for ${bengaliAccent} not found. Attempting to find any Bengali voice.`);
-            const anyBengaliVoice = voices.find(voice => voice.lang.startsWith('bn'));
-            if (anyBengaliVoice) {
-                utterance.voice = anyBengaliVoice;
-            } else {
-                console.warn('No Bengali voice found. Using default voice.');
-            }
-        }
-
-        utterance.onstart = () => {
-            // Update the button's innerHTML with the playing emoji if applicable
-            if (originatorButton.id === 'playButton' || playGuessOnClick) {
-                setButtonContent(originatorButton, playingEmoji);
-            }
-            playingStatusDiv.classList.add('hidden'); // Ensure text indicator is hidden
-        };
-
-        utterance.onend = () => {
-            isPlaying = false;
-            // Revert button's innerHTML to original text with stopped emoji if applicable
-            if (originatorButton.id === 'playButton') {
-                setButtonContent(originatorButton, ''); // Play button goes back to just text
-            } else if (playGuessOnClick) {
-                setButtonContent(originatorButton, stoppedEmoji);
-            } else {
-                setButtonContent(originatorButton, ''); // No emoji if toggle is off
-            }
-
-
-            if (onEndCallback) {
-                onEndCallback();
-            }
-
-            // Re-enable buttons based on game state
-            // All buttons are re-enabled after speech finishes to allow for replaying or selection
-            word1Button.disabled = false;
-            word2Button.disabled = false;
-
-            // Re-enable submit button only if a word is selected and not yet submitted
-            if (userSelectedWord && nextButton.disabled) {
-                submitGuessButton.disabled = false;
-            }
-        };
-
-        utterance.onerror = (event) => {
-            console.error('Speech synthesis error:', event.error);
-            playingStatusDiv.textContent = 'Error playing word. Please try again.';
-            playingStatusDiv.classList.remove('hidden');
-            isPlaying = false;
-            // Re-enable all buttons on error
-            playButton.disabled = false; // Ensure play button is also re-enabled
-            word1Button.disabled = false;
-            word2Button.disabled = false;
-            if (userSelectedWord && nextButton.disabled) {
-                submitGuessButton.disabled = false;
-            }
-            // Revert button text on error
-            if (originatorButton.id === 'playButton') {
-                setButtonContent(originatorButton, '');
-            } else if (playGuessOnClick) {
-                setButtonContent(originatorButton, stoppedEmoji);
-            } else {
-                setButtonContent(originatorButton, '');
-            }
-        };
-
-        window.speechSynthesis.speak(utterance);
-    } else {
-        // Fallback for browsers that do not support Web Speech API
-        playingStatusDiv.textContent = `Text-to-Speech not supported. Playing: ${word} ... (Simulated)`;
-        playingStatusDiv.classList.remove('hidden');
-        if (originatorButton.id === 'playButton' || playGuessOnClick) {
-            setButtonContent(originatorButton, playingEmoji); // Show emoji for simulation
-        }
-        setTimeout(() => {
-            isPlaying = false;
-            if (originatorButton.id === 'playButton') {
-                setButtonContent(originatorButton, '');
-            } else if (playGuessOnClick) {
-                setButtonContent(originatorButton, stoppedEmoji);
-            } else {
-                setButtonContent(originatorButton, '');
-            }
-            if (onEndCallback) {
-                onEndCallback();
-            }
-            // Re-enable all buttons after simulation
-            playButton.disabled = false; // Ensure play button is also re-enabled
-            word1Button.disabled = false;
-            word2Button.disabled = false;
-            if (userSelectedWord && nextButton.disabled) {
-                submitGuessButton.disabled = false;
-            }
-            playingStatusDiv.classList.add('hidden'); // Hide fallback text indicator
-        }, 1500);
+    
+    // Set playing emoji on originator button
+    if (originatorButton && (originatorButton.id === 'playButton' || playGuessOnClick)) {
+        setButtonContent(originatorButton, playingEmoji);
     }
+    playingStatusDiv.classList.add('hidden'); // Clear previous status
+
+    const audioFilenameBase = wordObject[1]; // audio base filename is at index 1
+    if (audioFilenameBase && audioPlayer) { // Check if audioPlayer is initialized and base filename exists
+        const audioPath = `audio/aligned/${audioFilenameBase}.mp3`;
+        console.log(`Attempting to play MP3: ${audioPath} for word: ${wordObject[0]}`);
+        currentPlayback.isMP3 = true;
+        audioPlayer.src = audioPath;
+        audioPlayer.play().catch(e => {
+            console.error("Error starting MP3 playback (play() catch):", e);
+            // This catch is for immediate play() errors.
+            // The 'error' event on audioPlayer handles loading/decoding errors.
+            // Trigger the error handler which will attempt TTS fallback.
+            handleAudioPlayerError();
+        });
+    } else {
+        console.log(`No MP3 for ${wordObject[0]}, using TTS.`);
+        currentPlayback.isMP3 = false;
+        speakWordTTS(wordObject[0], originatorButton, onEndCallback); // Pass text for TTS
+    }
+}
+
+/**
+ * Handles Text-to-Speech synthesis.
+ * @param {string} wordText - The text of the word to speak.
+ * @param {HTMLElement} originatorButton - The button that triggered speech.
+ * @param {function} onEndCallback - Callback after speech.
+ */
+function speakWordTTS(wordText, originatorButton, onEndCallback) {
+    if (!('speechSynthesis' in window)) {
+        console.error("Speech synthesis not supported.");
+        playingStatusDiv.textContent = 'Text-to-Speech not supported.';
+        playingStatusDiv.classList.remove('hidden');
+        finalizePlayback(false); // Treat as a playback failure
+        return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(wordText);
+    utterance.lang = bengaliAccent;
+    utterance.rate = speechRate;
+    utterance.pitch = speechPitch;
+
+    const voices = window.speechSynthesis.getVoices();
+    const selectedVoice = voices.find(voice => voice.lang === bengaliAccent) || voices.find(voice => voice.lang.startsWith('bn'));
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+    } else {
+        console.warn(`No specific Bengali voice found for ${bengaliAccent}. Using browser default for language.`);
+    }
+
+    utterance.onstart = () => {
+        // Ensure playing emoji is set, especially if this is a fallback
+        if (currentPlayback.originatorButton && (currentPlayback.originatorButton.id === 'playButton' || playGuessOnClick)) {
+            setButtonContent(currentPlayback.originatorButton, playingEmoji);
+        }
+        playingStatusDiv.classList.add('hidden');
+    };
+    utterance.onend = () => finalizePlayback(true);
+    utterance.onerror = (event) => {
+        console.error('Speech synthesis error:', event.error);
+        finalizePlayback(false);
+    }
+    window.speechSynthesis.speak(utterance);
 }
 
 /**
@@ -341,13 +326,14 @@ function playCorrectWord() {
  * @param {HTMLElement} chosenButton - The button element selected by the user.
  */
 function processGuess(chosenWord, chosenButton) {
+    // chosenWord is now a word object {text, audio}
     totalAttempts++;
     submitGuessButton.disabled = true; // Disable submit button after processing
 
     let isCorrect = false;
 
     // Apply color feedback
-    if (chosenWord === correctWord) {
+    if (chosenWord[0] === correctWord[0]) { // Compare text parts
         feedbackDiv.textContent = 'Correct! 🎉';
         feedbackDiv.className = 'feedback-correct text-xl mt-4';
         chosenButton.classList.remove('bg-base-color');
@@ -355,13 +341,13 @@ function processGuess(chosenWord, chosenButton) {
         score++; // Increment score only if correct
         isCorrect = true;
     } else {
-        feedbackDiv.textContent = `Incorrect. The word was "${correctWord}".`;
+        feedbackDiv.textContent = `Incorrect. The word was "${correctWord[0]}".`;
         feedbackDiv.className = 'feedback-incorrect text-xl mt-4';
         chosenButton.classList.remove('bg-base-color');
         chosenButton.classList.add('bg-red-500-custom');
 
         // Find the correct word button and highlight it green
-        const correctButton = (word1Button.dataset.originalText === correctWord) ? word1Button : word2Button;
+        const correctButton = (word1Button.dataset.originalText === correctWord[0]) ? word1Button : word2Button;
         correctButton.classList.remove('bg-base-color');
         correctButton.classList.add('bg-green-500-custom');
         isCorrect = false;
@@ -370,9 +356,9 @@ function processGuess(chosenWord, chosenButton) {
 
     // Add to history
     gameHistory.push({
-        pair: [...currentPair], // Store the actual pair from currentPair
-        correct: correctWord,
-        guessed: chosenWord,
+        pair: currentPair.map(p => p[0]), // Store array of word texts (at index 0)
+        correct: correctWord[0],          // Text is at index 0
+        guessed: chosenWord[0],           // Text is at index 0
         isCorrect: isCorrect
     });
     console.log('Game History:', gameHistory); // For debugging history
@@ -404,7 +390,18 @@ function handleChoice(chosenWordTextContent, chosenButton) {
     // this click is purely for replaying the sound.
     // We check if submitGuessButton is "Next Pair" to know if guess was submitted
     if (submitGuessButton.textContent.includes("Next Pair")) {
-        speakWord(chosenButton.dataset.originalText, chosenButton, null); // Use originalText for replay
+        // Find the corresponding word object to replay
+        const wordToReplay = (chosenButton.id === 'word1Button') ? 
+            currentPair.find(p => p[0] === word1Button.dataset.originalText) : 
+            currentPair.find(p => p[0] === word2Button.dataset.originalText);
+        
+        if (!wordToReplay) {
+            console.error("Could not find word array to replay for button:", chosenButton.id, "with text:", chosenButton.dataset.originalText);
+            return;
+        }
+        if (wordToReplay) {
+            speakWord(wordToReplay, chosenButton, null);
+        }
         return;
     }
 
@@ -419,17 +416,28 @@ function handleChoice(chosenWordTextContent, chosenButton) {
         userSelectedButton.classList.remove('selected');
         userSelectedButton.classList.add('bg-base-color'); // Re-add base color to previously selected
     }
-    userSelectedWord = chosenButton.dataset.originalText; // Store the pure word from dataset
+    // Find the selected word object from currentPair based on button's original text
+    const selectedText = chosenButton.dataset.originalText;
+    userSelectedWord = currentPair.find(p => p[0] === selectedText); // userSelectedWord is now an array [text, audioBase]
+    
     userSelectedButton = chosenButton;
     userSelectedButton.classList.add('selected'); // Apply the selected class here
     userSelectedButton.classList.remove('bg-base-color'); // Remove base color from the newly selected
 
     // Enable the submit guess button
-    submitGuessButton.disabled = false;
-
+    if (userSelectedWord) { // Ensure a word object was actually found
+        submitGuessButton.disabled = false;
+    } else {
+        console.error("Could not find selected word array for:", selectedText);
+    }
     // Play the sound of the selected guess if the toggle is checked
     if (playGuessOnClick) {
-        speakWord(chosenButton.dataset.originalText, chosenButton, null); // Use originalText for playing guess
+        // We need to pass the full wordObject, not just text
+        if (userSelectedWord) { // userSelectedWord should be the full object
+            speakWord(userSelectedWord, chosenButton, null);
+        } else {
+            console.error("playGuessOnClick: userSelectedWord is not set, cannot play audio for choice.");
+        }
     }
 }
 
@@ -622,6 +630,98 @@ function closeDataErrorModal() {
     if (dataErrorModal) dataErrorModal.classList.remove('show');
 }
 
+// --- Audio Playback Event Handlers ---
+function handleAudioPlayerEnded() {
+    finalizePlayback(true);
+}
+
+function handleAudioPlayerError() {
+    console.error("MP3 playback error for audio base:", currentPlayback.wordObject?.[1]); // audio base is at index 1
+    // Attempt TTS fallback
+    if (currentPlayback.wordObject && currentPlayback.originatorButton) {
+        console.warn("Attempting TTS fallback for:", currentPlayback.wordObject[0]); // text is at index 0
+        
+        const tempWordObj = currentPlayback.wordObject;
+        const tempOriginator = currentPlayback.originatorButton;
+        const tempCallback = currentPlayback.onEndCallback;
+        
+        // Reset currentPlayback before calling TTS to avoid state confusion
+        // and prevent finalizePlayback from running with old MP3 state.
+        currentPlayback.originatorButton = null;
+        currentPlayback.onEndCallback = null;
+        currentPlayback.wordObject = null;
+        currentPlayback.isMP3 = false; // Important: mark that we are now trying TTS
+
+        // Update global state for the new TTS attempt
+        currentPlayback.originatorButton = tempOriginator;
+        currentPlayback.onEndCallback = tempCallback;
+        currentPlayback.wordObject = tempWordObj; // This is the array [text, audioBase]
+
+        speakWordTTS(tempWordObj.text, tempOriginator, tempCallback);
+    } else {
+        finalizePlayback(false); // No TTS fallback possible
+    }
+}
+
+/**
+ * Common handler for when audio (MP3 or TTS) finishes or errors.
+ * @param {boolean} success - True if playback was successful, false otherwise.
+ */
+function finalizePlayback(success) {
+    isPlaying = false; // Should always be set to false here
+    const { originatorButton, onEndCallback, isMP3, wordObject } = currentPlayback;
+
+    if (originatorButton) {
+        if (originatorButton.id === 'playButton') {
+            setButtonContent(originatorButton, '');
+        } else if (originatorButton.id === 'word1Button' || originatorButton.id === 'word2Button') {
+            if (playGuessOnClick) {
+                setButtonContent(originatorButton, stoppedEmoji);
+            } else {
+                setButtonContent(originatorButton, '');
+            }
+        }
+    } // else: no originator button, nothing to update (e.g. if called directly)
+
+    if (!success) {
+        const errorType = isMP3 ? "MP3 Audio" : "Speech Synthesis";
+        console.error(`Error during ${errorType} playback of "${wordObject?.[0]}".`); // text is at index 0
+        playingStatusDiv.textContent = `Error playing word. (${errorType})`;
+        playingStatusDiv.classList.remove('hidden');
+    } else {
+        playingStatusDiv.classList.add('hidden'); // Hide if successful
+    }
+
+    // Re-enable buttons based on game state (logic from original utterance.onend)
+    if (submitGuessButton.textContent.includes("Next Pair")) { // Guess has been submitted
+        playButton.disabled = false;
+        word1Button.disabled = false; // Allow replaying
+        word2Button.disabled = false; // Allow replaying
+    } else { // Still in guessing phase
+        playButton.disabled = false;
+        word1Button.disabled = false;
+        word2Button.disabled = false;
+        // Only enable submit if a word is selected AND guess hasn't been made
+        // This condition is tricky because submit button text changes.
+        if (userSelectedWord && submitGuessButton.textContent.includes("Submit Guess")) { submitGuessButton.disabled = false; }
+    }
+    
+    if (onEndCallback) {
+        // Clear before calling to prevent re-entrancy issues if callback calls speakWord
+        currentPlayback.originatorButton = null;
+        currentPlayback.onEndCallback = null;
+        currentPlayback.wordObject = null;
+        currentPlayback.isMP3 = false;
+        onEndCallback();
+    } else {
+        // Clear if no callback
+        currentPlayback.originatorButton = null;
+        currentPlayback.onEndCallback = null;
+        currentPlayback.wordObject = null;
+        currentPlayback.isMP3 = false;
+    }
+}
+
 // --- Combined Event Handler for Submit/Next ---
 /**
  * Handles click on the button that is either "Submit Guess" or "Next Pair".
@@ -703,6 +803,11 @@ if (dataErrorModalOkButton) {
 
 // Initial setup when the page loads
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the audio player
+    audioPlayer = new Audio();
+    audioPlayer.addEventListener('ended', handleAudioPlayerEnded);
+    audioPlayer.addEventListener('error', handleAudioPlayerError);
+
     console.log("DOM Content Loaded. Checking data..."); // Debug log
 
     // Check if there are any pairs in any type
