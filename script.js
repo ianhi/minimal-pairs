@@ -5,6 +5,7 @@ let currentPair = null;
 let correctWord = null;
 let score = 0;
 let totalAttempts = 0;
+let currentPairAudioBasePath = 'audio/aligned'; // Default path, will be updated per round
 let isPlaying = false; // Flag to indicate if speech synthesis is currently active
 let userSelectedWord = null; // Stores the pure word the user has selected
 let userSelectedButton = null; // Stores the button element the user has selected
@@ -27,6 +28,7 @@ const historyEmoji = '📚'; // Books emoji for history button
 const skipEmoji = '⏭️';    // Skip track emoji
 const resetEmoji = '🔄';   // Reset emoji
 
+const DEFAULT_AUDIO_BASE_PATH = 'audio/aligned';
 // Get DOM elements
 const playButton = document.getElementById('playButton');
 const word1Button = document.getElementById('word1Button');
@@ -172,8 +174,9 @@ function startNewRound() {
 
     // Select a random minimal pair from the filtered list
     const randomIndex = Math.floor(Math.random() * currentFilteredPairs.length);
-    currentPair = currentFilteredPairs[randomIndex];
-
+    const pairItem = currentFilteredPairs[randomIndex];
+    currentPair = pairItem.pair; // currentPair is the array of word objects
+    currentPairAudioBasePath = pairItem.audioBasePath; // Set the audio path for this round
     // Randomly assign words to buttons
     const shuffledWordObjects = [...currentPair].sort(() => Math.random() - 0.5); // currentPair is an array of word objects
     word1Button.textContent = shuffledWordObjects[0][0]; // text is at index 0
@@ -248,7 +251,7 @@ function speakWord(wordObject, originatorButton, onEndCallback) {
 
     const audioFilenameBase = wordObject[1]; // audio base filename is at index 1
     if (audioFilenameBase && audioPlayer) { // Check if audioPlayer is initialized and base filename exists
-        const audioPath = `audio/aligned/${audioFilenameBase}.mp3`;
+        const audioPath = `${currentPairAudioBasePath}/${audioFilenameBase}.mp3`; // Use dynamic base path
         console.log(`Attempting to play MP3: ${audioPath} for word: ${wordObject[0]}`);
         currentPlayback.isMP3 = true;
         audioPlayer.src = audioPath;
@@ -471,16 +474,16 @@ function populateTypeDropdown() {
     typeSelectElement.innerHTML = ''; // Clear existing options
 
     const allOption = document.createElement('option');
-    allOption.value = 'All';
+    allOption.value = 'All'; // Keep 'All' as a string value
     allOption.textContent = 'All Types';
     typeSelectElement.appendChild(allOption);
 
     // Get types from the keys of the allMinimalPairsData object
     const types = Object.keys(allMinimalPairsData).sort();
-
     types.forEach(type => {
-        // Only add the type to dropdown if it has pairs
-        if (allMinimalPairsData[type] && allMinimalPairsData[type].length > 0) {
+        const typeData = allMinimalPairsData[type];
+        // Consistently expect new structure: { path: "...", pairs: [...] }
+        if (typeData && typeData.pairs && typeData.pairs.length > 0) {
             const option = document.createElement('option');
             option.value = type;
             option.textContent = type;
@@ -495,12 +498,27 @@ function populateTypeDropdown() {
  */
 function handleTypeChange() {
     const selectedType = typeSelectElement.value;
+    currentFilteredPairs = []; // Reset
+
     if (selectedType === 'All') {
-        // Flatten all arrays of pairs from all types
-        currentFilteredPairs = Object.values(allMinimalPairsData).flat();
+        Object.values(allMinimalPairsData).forEach(typeData => {
+            // Consistently expect new structure: { path: "...", pairs: [...] }
+            if (typeData && typeData.pairs) { // Ensure typeData and typeData.pairs exist
+                const basePath = typeData.path || DEFAULT_AUDIO_BASE_PATH; // Use provided path or default
+                typeData.pairs.forEach(pair => {
+                    currentFilteredPairs.push({ pair: pair, audioBasePath: basePath });
+                });
+            }
+        });
     } else {
-        // Get pairs for the specific type, or an empty array if the type doesn't exist (should not happen with populated dropdown)
-        currentFilteredPairs = allMinimalPairsData[selectedType] || [];
+        const typeData = allMinimalPairsData[selectedType];
+        // Consistently expect new structure: { path: "...", pairs: [...] }
+        if (typeData && typeData.pairs) { // Ensure typeData and typeData.pairs exist
+            const basePath = typeData.path || DEFAULT_AUDIO_BASE_PATH;
+            typeData.pairs.forEach(pair => {
+                currentFilteredPairs.push({ pair: pair, audioBasePath: basePath });
+            });
+        }
     }
     resetGame(); // Reset score and start a new round with the filtered pairs
 }
@@ -636,30 +654,37 @@ function handleAudioPlayerEnded() {
 }
 
 function handleAudioPlayerError() {
+    // Guard: If TTS fallback is already active for this word (isMP3 is false),
+    // or if playback was already finalized (isPlaying is false).
+    if (!currentPlayback.isMP3 || !isPlaying) {
+        console.warn("handleAudioPlayerError: TTS fallback already active or playback finalized. Skipping.", 
+                     { isMP3: currentPlayback.isMP3, isPlaying: isPlaying, word: currentPlayback.wordObject?.[0] });
+        return;
+    }
+
+    // This point is reached only if:
+    // 1. currentPlayback.isMP3 was true (we were trying MP3)
+    // 2. isPlaying is true (finalizePlayback hasn't run yet for this attempt)
+
     console.error("MP3 playback error for audio base:", currentPlayback.wordObject?.[1]); // audio base is at index 1
-    // Attempt TTS fallback
-    if (currentPlayback.wordObject && currentPlayback.originatorButton) {
-        console.warn("Attempting TTS fallback for:", currentPlayback.wordObject[0]); // text is at index 0
-        
-        const tempWordObj = currentPlayback.wordObject;
-        const tempOriginator = currentPlayback.originatorButton;
-        const tempCallback = currentPlayback.onEndCallback;
-        
-        // Reset currentPlayback before calling TTS to avoid state confusion
-        // and prevent finalizePlayback from running with old MP3 state.
-        currentPlayback.originatorButton = null;
-        currentPlayback.onEndCallback = null;
-        currentPlayback.wordObject = null;
-        currentPlayback.isMP3 = false; // Important: mark that we are now trying TTS
+    
+    // Mark that we are now attempting TTS for the current wordObject.
+    // This is critical for the guard to work on subsequent calls for the same error.
+    currentPlayback.isMP3 = false; 
 
-        // Update global state for the new TTS attempt
-        currentPlayback.originatorButton = tempOriginator;
-        currentPlayback.onEndCallback = tempCallback;
-        currentPlayback.wordObject = tempWordObj; // This is the array [text, audioBase]
+    console.warn("Attempting TTS fallback for:", currentPlayback.wordObject[0]); // text is at index 0
 
-        speakWordTTS(tempWordObj.text, tempOriginator, tempCallback);
+    // These were set by the original speakWord() call that tried MP3.
+    const wordToSpeak = currentPlayback.wordObject; 
+    const originator = currentPlayback.originatorButton;
+    const originalCallback = currentPlayback.onEndCallback;
+
+    if (wordToSpeak && typeof wordToSpeak[0] === 'string' && originator) {
+        speakWordTTS(wordToSpeak[0], originator, originalCallback);
     } else {
-        finalizePlayback(false); // No TTS fallback possible
+        console.error("handleAudioPlayerError: Missing critical info for TTS fallback.", 
+                      { wordObj: wordToSpeak, originator: originator });
+        finalizePlayback(false); // Cannot proceed with TTS
     }
 }
 
@@ -813,12 +838,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if there are any pairs in any type
     let hasAnyPairs = false;
     if (typeof allMinimalPairsData === 'object' && allMinimalPairsData !== null) {
-        hasAnyPairs = Object.values(allMinimalPairsData).some(typeArray => Array.isArray(typeArray) && typeArray.length > 0);
+        // Expect new structure: { path: "...", pairs: [...] }
+        hasAnyPairs = Object.values(allMinimalPairsData).some(
+            typeData => typeof typeData === 'object' && typeData !== null && Array.isArray(typeData.pairs) && typeData.pairs.length > 0
+        );
     }
     
     if (!hasAnyPairs) {
-        console.error("No minimal pairs data found or data is empty."); // Debug log
-        const errorMessage = "Could not load the minimal pairs data required for the application to run. Please try refreshing the page. If the problem persists, please check the browser console for more details.";
+        const errorMessage = "No minimal pairs data found, data is empty, or data is not in the expected format { path: '...', pairs: [...] }. Please check the data file and refresh.";
         disableGameControls(errorMessage); // Still disable controls in the background
         showDataErrorModal(errorMessage);  // Show the modal
     } else {
