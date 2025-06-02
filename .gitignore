@@ -4,6 +4,7 @@ generated_audio
 aligned
 audio/old
 audio/dental-retroflex
+audio/
 # Logs
 logs
 *.log
