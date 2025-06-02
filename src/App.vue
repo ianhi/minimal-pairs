@@ -57,96 +57,33 @@
         </div>
     </div>
 
-    <!-- Settings Modal -->
-    <div v-if="showSettingsModal" id="settingsModal" class="modal-overlay show">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Settings</h2>
-                <button class="modal-close-button" @click="showSettingsModal = false">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-setting-item toggle-switch">
-                    <label for="modalPlayGuessToggle">Play guess on click</label>
-                    <input type="checkbox" id="modalPlayGuessToggle" v-model="settings.playGuessOnClick">
-                </div>
-                <div class="modal-setting-item toggle-switch">
-                    <label for="modalAutoPlayNextWordToggle">Auto-play next word</label>
-                    <input type="checkbox" id="modalAutoPlayNextWordToggle" v-model="settings.autoPlayNextWord">
-                </div>
-                <div class="modal-setting-item">
-                    <label for="modalAutoPlayDelay">Auto-play delay (ms)</label>
-                    <input type="number" id="modalAutoPlayDelay" ref="modalAutoPlayDelayInputRef" min="0" v-model.number="settings.autoPlayDelay" :disabled="!settings.autoPlayNextWord">
-                </div>
-                <div class="modal-setting-item">
-                    <label for="modalSpeechRate">Speech Rate (0.1-10)</label>
-                    <input type="number" id="modalSpeechRate" min="0.1" max="10" step="0.1" v-model.number="settings.speechRate">
-                </div>
-                <div class="modal-setting-item">
-                    <label for="modalSpeechPitch">Speech Pitch (0-2)</label>
-                    <input type="number" id="modalSpeechPitch" min="0" max="2" step="0.1" v-model.number="settings.speechPitch">
-                </div>
-                <div class="radio-group">
-                    <label class="text-base text-gray-700">Bengali Accent:</label>
-                    <div>
-                        <input type="radio" id="accentKolkata" name="bengaliAccent" value="bn-IN" v-model="settings.bengaliAccent">
-                        <label for="accentKolkata">Kolkata Style (India)</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="accentBangladesh" name="bengaliAccent" value="bn-BD" v-model="settings.bengaliAccent">
-                        <label for="accentBangladesh">Bangladesh Style</label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="button-secondary" @click="showSettingsModal = false">Cancel</button>
-                <button class="button-primary" @click="saveSettings">Save</button>
-            </div>
-        </div>
-    </div>
+    <SettingsModal 
+        :show="showSettingsModal" 
+        :current-settings="settings"
+        @update:show="showSettingsModal = $event"
+        @save-settings="handleSaveSettings"
+    />
 
-    <!-- History Modal -->
-    <div v-if="showHistoryModal" id="historyModal" class="modal-overlay show">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Game History</h2>
-                <button class="modal-close-button" @click="showHistoryModal = false">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="historyList" class="history-list w-full">
-                    <p v-if="gameHistory.length === 0" class="text-gray-500 text-center">No guesses yet.</p>
-                    <div v-for="(entry, index) in gameHistory" :key="index" class="history-item">
-                        <strong>{{ index + 1 }}.</strong> Pair: {{ entry.pair.join(' / ') }}<br>
-                        Guessed: <span :class="entry.isCorrect ? 'correct-answer' : 'wrong-answer'">{{ entry.guessed }}</span> {{ entry.isCorrect ? '✅' : '❌' }}<br>
-                        Correct: <span class="correct-answer">{{ entry.correct }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="button-secondary" @click="clearHistory">Clear History</button>
-                <button class="button-primary" @click="showHistoryModal = false">OK</button>
-            </div>
-        </div>
-    </div>
+    <HistoryModal
+        :show="showHistoryModal"
+        :history="gameHistory"
+        @update:show="showHistoryModal = $event"
+        @clear-history="clearHistory"
+    />
 
-    <!-- Data Error Modal -->
-    <div v-if="showDataError" id="dataErrorModal" class="modal-overlay show">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Data Loading Error</h2>
-            </div>
-            <div class="modal-body">
-                <p id="dataErrorModalMessage" class="text-gray-700 text-left">{{ dataErrorMessage }}</p>
-            </div>
-            <div class="modal-footer">
-                <button class="button-primary" @click="showDataError = false">OK</button>
-            </div>
-        </div>
-    </div>
+    <DataErrorModal
+        :show="showDataError"
+        :message="dataErrorMessage"
+        @update:show="showDataError = $event"
+    />
 </template>
 
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue';
 import { allMinimalPairsData } from '../minimal_pairs_data.js'; // Adjust path if you move it
+import SettingsModal from './components/SettingsModal.vue';
+import HistoryModal from './components/HistoryModal.vue';
+import DataErrorModal from './components/DataErrorModal.vue';
 
 const DEFAULT_AUDIO_BASE_PATH = 'audio/aligned';
 
@@ -193,7 +130,6 @@ const dataErrorMessage = ref('');
 
 // Template Refs
 const playButtonRef = ref(null);
-const modalAutoPlayDelayInputRef = ref(null);
 
 let audioPlayer;
 let currentPlayback = reactive({
@@ -500,14 +436,9 @@ function resetGame() {
     startNewRound();
 }
 
-function saveSettings() {
-    // Settings are already bound with v-model. This function is for any validation or post-save actions.
-    if (isNaN(settings.autoPlayDelay) || settings.autoPlayDelay < 0) settings.autoPlayDelay = 0;
-    if (isNaN(settings.speechRate) || settings.speechRate < 0.1) settings.speechRate = 0.1;
-    if (settings.speechRate > 10) settings.speechRate = 10;
-    if (isNaN(settings.speechPitch) || settings.speechPitch < 0) settings.speechPitch = 0;
-    if (settings.speechPitch > 2) settings.speechPitch = 2;
-    showSettingsModal.value = false;
+function handleSaveSettings(newSettings) {
+    Object.assign(settings, newSettings);
+    // Any other actions needed after saving settings can go here
 }
 
 function clearHistory() {
@@ -573,13 +504,6 @@ onMounted(() => {
     }
      // Trigger voice loading if needed (some browsers require this)
     window.speechSynthesis.getVoices();
-});
-
-// Watch for changes in autoPlayNextWord to enable/disable delay input
-watch(() => settings.autoPlayNextWord, (newValue) => {
-    if (modalAutoPlayDelayInputRef.value) { // Check if the ref is available and the element exists
-        modalAutoPlayDelayInputRef.value.disabled = !newValue;
-    }
 });
 
 </script>

@@ -29,3 +29,6 @@ dist-ssr
 *.sln
 *.sw?
 minimal-pairs
+*.ipynb
+.ipynb_checkpoints
+package-lock.json
