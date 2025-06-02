@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ pageTitle }}</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">{{ pageTitle }}</h1>
 
         <div class="mb-6">
             <label for="typeSelect" class="block text-lg font-medium text-gray-700 mb-2">Select Minimal Pair Type:</label>
@@ -40,7 +40,7 @@
             </button>
         </div>
 
-        <div class="text-lg text-gray-700 mt-4">
+        <div class="text-lg text-gray-700 mt-4 text-center">
             Score: <span id="score">{{ score }}</span> / <span id="totalAttempts">{{ totalAttempts }}</span>
         </div>
 
@@ -320,8 +320,11 @@ function speakWord(wordObject, originatorButton, onEndCallback) {
 
     const audioFilenameBase = wordObject[1];
     if (audioFilenameBase && audioPlayer) {
-        // Ensure the path is absolute from the public directory root
-        const audioPath = `/${currentPairAudioBasePath.value}/${audioFilenameBase}.mp3`;
+        // Construct path relative to the deployment base URL
+        // import.meta.env.BASE_URL will be like '/' or '/minimal-pairs/'
+        // currentPairAudioBasePath.value is like 'audio/aligned'
+        const audioPath = `${import.meta.env.BASE_URL}${currentPairAudioBasePath.value}/${audioFilenameBase}.mp3`;
+
         currentPlayback.isMP3 = true;
         audioPlayer.src = audioPath;
         audioPlayer.play().catch(e => {
