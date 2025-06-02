@@ -58,7 +58,7 @@
                     <div class="mb-6">
                         <h3 class="text-xl font-semibold text-gray-700 mb-2">👯‍♂️ Minimal Pairs Determination 👯‍♂️</h3>
                         <p class="text-lg">
-                            For Bangla I struggled to find a good list of minimal pairs. So I used LLMs to generate a list of candidates and then had a native speaker validate the choices.<br/>
+                            For Bangla I struggled to find a good list of minimal pairs. So I used LLMs to generate a list of candidates and will have a native speaker validate the choices. (I will update this text once that happens)<br/>
                         </p>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <p class="text-lg">
                              I chose to use Google Cloud Text to Speech to instead of native spearker audio
                             in order to achieve the highest possible consistency between words. I applied custom post-processing to align
-                            the audio in time. For Bangla I had a native speaker validate the audio was correct. The Bangla audio was generated
+                            the audio in time. For Bangla I have asked a native speaker i personally know to the audio and will update this once I that has happened. The Bangla audio was generated
                             with the bn-IN-Chirp3-HD-Aoede voice.
                         </p>
                     </div>
