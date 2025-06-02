@@ -3,7 +3,7 @@
 // All categories now follow the structure: { path: "optional/path", pairs: [...] }
 // If path is not specified, "audio/aligned" will be used by default in script.js.
 
-const allMinimalPairsData = {
+export const allMinimalPairsData = {
     "Aspirated vs. Unaspirated Consonants": {
         // path: "audio/aligned", // Implicitly uses default
         pairs: [

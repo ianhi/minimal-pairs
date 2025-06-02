@@ -368,3 +368,59 @@ body {
         font-size: 1.5rem;
     }
 }
+
+/* --- Layout fixes for button groups --- */
+
+/* Word Choice Buttons (#wordChoices) */
+#wordChoices {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to 1 column (stacked) */
+    gap: 1rem; /* Mimics Tailwind's gap-4 (16px) */
+    /* margin-top is handled by .container's gap */
+}
+
+@media (min-width: 768px) { /* Tailwind 'md' breakpoint */
+    #wordChoices {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns side-by-side */
+    }
+}
+
+/* Group for Submit/Next and Skip buttons */
+/* Targets the div in App.vue with classes: "flex flex-col md:flex-row justify-center gap-4 mt-6" */
+/* This selector assumes it's a direct child of .container and contains #submitGuessButton */
+.container > div:has(> #submitGuessButton) {
+    display: flex;
+    flex-direction: column; /* Default: stacked */
+    align-items: center; /* Center items when stacked */
+    justify-content: center;
+    gap: 1rem; /* Mimics Tailwind's gap-4 */
+    /* margin-top is handled by .container's gap */
+}
+
+@media (min-width: 768px) { /* Tailwind 'md' breakpoint */
+    .container > div:has(> #submitGuessButton) {
+        flex-direction: row; /* Side-by-side */
+    }
+}
+
+/* Group for Reset, Settings, History buttons */
+/* Targets the div in App.vue with classes: "grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 mx-auto w-full max-w-md" */
+.container > div:has(> #resetButton) {
+    display: grid;
+    grid-template-columns: 1fr; /* Default: 1 column (stacked) */
+    gap: 1rem; /* Mimics Tailwind's gap-4 */
+    width: 100%;
+    max-width: 28rem; /* Mimics Tailwind's max-w-md (448px) */
+    margin-left: auto; /* Mimics mx-auto */
+    margin-right: auto; /* Mimics mx-auto */
+    /* margin-top is handled by .container's gap */
+}
+@media (min-width: 640px) { /* Tailwind 'sm' breakpoint */
+    .container > div:has(> #resetButton) {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns side-by-side */
+    }
+}
+.word-button.selected {
+    border-color: #3b82f6; /* Blue border when selected */
+    background-color: #dbeafe; /* Light blue background when selected */
+}
