@@ -424,3 +424,40 @@ body {
     border-color: #3b82f6; /* Blue border when selected */
     background-color: #dbeafe; /* Light blue background when selected */
 }
+
+/* --- Custom styling for the #typeSelect dropdown --- */
+#typeSelect {
+    appearance: none; /* Remove default system appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #ffffff; /* White background */
+    border: 1px solid #d1d5db; /* gray-300 equivalent */
+    border-radius: 0.5rem; /* rounded-lg equivalent */
+    padding: 0.75rem 2.5rem 0.75rem 0.75rem; /* p-3, with extra right padding for arrow */
+    font-size: 1rem; /* Standard font size */
+    color: #374151; /* gray-700 equivalent */
+    width: 100%; /* w-full equivalent */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm equivalent */
+    cursor: pointer;
+    line-height: 1.5; /* Ensure text is vertically centered */
+
+    /* Custom dropdown arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.25em 1.25em;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#typeSelect:focus {
+    outline: none;
+    border-color: #3b82f6; /* blue-500 equivalent */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* Ring effect: blue-500 with opacity */
+}
+
+/* Styling for options (can be limited depending on browser) */
+#typeSelect option {
+    padding: 0.5rem; /* Add some padding to options for better readability */
+    background-color: #ffffff;
+    color: #374151;
+}
