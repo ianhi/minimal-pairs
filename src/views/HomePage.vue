@@ -5,6 +5,12 @@
             <p class="text-lg text-gray-600 mt-2">Choose a language to start practicing your pronunciation!</p>
         </header>
 
+        <section id="inspiration" class="text-center my-6">
+            <p class="text-md text-gray-500 italic">
+                Inspired by the recommendations in the <a href="https://fluent-forever.com/book/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer-when-downgrade" class="text-blue-500 hover:text-blue-700 underline">Fluent Forever book</a>.
+            </p>
+        </section>
+
         <main>
             <section id="language-selection" class="mt-10">
                 <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">Available Languages</h2>
@@ -50,7 +56,7 @@
                 </p>
                 <div class="max-w-2xl mx-auto text-gray-600 px-4">
                     <div class="mb-6">
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Minimal Pairs Determination</h3>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">👯‍♂️ Minimal Pairs Determination 👯‍♂️</h3>
                         <p class="text-lg">
                             For Bangla I struggled to find a good list of minimal pairs. So I used LLMs to generate a list of candidates and then had a native speaker validate the choices.<br/>
                         </p>
@@ -58,7 +64,7 @@
                     </div>
                 <div class="max-w-2xl mx-auto text-gray-600 px-4">
                     <div class="mb-6">
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Audio Generation</h3>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">🎤 Audio Generation 🎤</h3>
                         <p class="text-lg">
                              I chose to use Google Cloud Text to Speech to instead of native spearker audio
                             in order to achieve the highest possible consistency between words. I applied custom post-processing to align
@@ -67,10 +73,10 @@
                         </p>
                     </div>
                     <div>
-                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Code Development</h3>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">💻 Code Development 💻</h3>
                         <p class="text-lg">
-                            AI coding assistants also played a crucial role in the software development itself. They helped accelerate development, brainstorm solutions, debug code, and implement new features, allowing for a more rapid and iterative creation process.
-                            This project was my first Vue project, and AI assistance was invaluable for learning and building.
+                            I heavily used gemini code assist to make this page. This was my first significant web project and without AI tools I'm not sure I would have made it at all.
+                            The Python code to generate the audio is a mix of AI and hand coded, the audio alignment and trimming code was written by me.
                         </p>
                     </div>
                 </div>
