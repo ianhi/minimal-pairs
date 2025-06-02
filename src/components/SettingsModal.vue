@@ -26,17 +26,6 @@
                     <label for="modalSpeechPitch">Speech Pitch (0-2)</label>
                     <input type="number" id="modalSpeechPitch" min="0" max="2" step="0.1" v-model.number="editableSettings.speechPitch">
                 </div>
-                <div class="radio-group">
-                    <label class="text-base text-gray-700">Bengali Accent:</label>
-                    <div>
-                        <input type="radio" id="accentKolkata" name="bengaliAccent" value="bn-IN" v-model="editableSettings.bengaliAccent">
-                        <label for="accentKolkata">Kolkata Style (India)</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="accentBangladesh" name="bengaliAccent" value="bn-BD" v-model="editableSettings.bengaliAccent">
-                        <label for="accentBangladesh">Bangladesh Style</label>
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <button class="button-secondary" @click="closeModal">Cancel</button>
@@ -56,7 +45,11 @@ const props = defineProps({
 
 const emit = defineEmits(['update:show', 'save-settings']);
 
-const editableSettings = reactive({ ...props.currentSettings });
+// Initialize editableSettings without bengaliAccent
+const { bengaliAccent, ...restOfSettings } = props.currentSettings;
+const editableSettings = reactive({ ...restOfSettings });
+
+
 const modalAutoPlayDelayInputRef = ref(null);
 
 watch(() => props.currentSettings, (newSettings) => {

@@ -122,8 +122,7 @@ const nextPairToPrefetch = ref(null); // Stores the {pair, audioBasePath} for th
 const settings = reactive({
     playGuessOnClick: true,
     autoPlayNextWord: true,
-    autoPlayDelay: 100,
-    bengaliAccent: 'bn-IN', // This might need to be dynamic if settings are shared across languages
+    autoPlayDelay: 10,
     speechRate: 1.0,
     speechPitch: 1.0,
 });
@@ -170,7 +169,6 @@ function initializeGameForLanguage(langCode) {
     if (langCode === 'bn-IN') {
         activeMinimalPairsData.value = bengaliMinimalPairsData;
         pageTitle.value = "Bengali Minimal Pairs Practice";
-        // TODO: Potentially adjust settings like bengaliAccent if they were more generic
     } else {
         activeMinimalPairsData.value = null;
         pageTitle.value = "Language Not Supported";
@@ -432,12 +430,16 @@ function speakWordTTS(wordText, originatorButton, onEndCallback) {
     }
 
     const utterance = new SpeechSynthesisUtterance(wordText);
-    utterance.lang = settings.bengaliAccent; // This would need to be dynamic for other languages
+    utterance.lang = props.langCode; 
     utterance.rate = settings.speechRate;
     utterance.pitch = settings.speechPitch;
 
     const voices = window.speechSynthesis.getVoices();
-    const selectedVoice = voices.find(voice => voice.lang === settings.bengaliAccent) || voices.find(voice => voice.lang.startsWith(settings.bengaliAccent.substring(0,2)));
+    let selectedVoice = null;
+    if (props.langCode) {
+        selectedVoice = voices.find(voice => voice.lang === props.langCode) || 
+                        voices.find(voice => voice.lang.startsWith(props.langCode.substring(0,2)));
+    }
     if (selectedVoice) utterance.voice = selectedVoice;
 
     utterance.onstart = () => { playingStatusText.value = ''; };
