@@ -1,7 +1,6 @@
 <template>
     <div class="container">
         <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">{{ pageTitle }}</h1>
-
         <div class="mb-6">
             <label for="typeSelect" class="block text-lg font-medium text-gray-700 mb-2">Select Minimal Pair
                 Type:</label>
@@ -81,7 +80,6 @@
 <script setup>
 import { ref, reactive, onMounted, computed, watch } from 'vue';
 // import { useRoute } from 'vue-router'; // No longer needed if langCode is a prop
-import { allMinimalPairsData as bengaliMinimalPairsData } from '../../minimal_pairs_data.js'; // Adjusted path
 import SettingsModal from '../components/SettingsModal.vue'; // Adjusted path
 import HistoryModal from '../components/HistoryModal.vue';   // Adjusted path
 import DataErrorModal from '../components/DataErrorModal.vue'; // Adjusted path
@@ -100,6 +98,7 @@ const resetEmoji = '🔄';
 
 // Language specific data - to be populated based on route param
 const activeMinimalPairsData = ref(null);
+const allLanguagesData = ref(null); // To store the entire fetched JSON
 const pageTitle = ref("Minimal Pairs Practice");
 
 // Reactive State (from original App.vue)
@@ -163,45 +162,55 @@ const canSkip = computed(() => currentFilteredPairs.value.length > 0 && !isNextP
 
 const submitButtonText = ref("Submit Guess");
 
+async function fetchMinimalPairsData() {
+    try {
+        const response = await fetch(`${import.meta.env.BASE_URL}/audio/minimal_pairs_db.json`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        allLanguagesData.value = await response.json();
+        return true;
+    } catch (error) {
+        console.error("Failed to fetch minimal pairs data:", error);
+        dataErrorMessage.value = "Could not load language data. Please try refreshing the page.";
+        showDataError.value = true;
+        return false;
+    }
+}
+
 function initializeGameForLanguage(langCode) {
-    if (langCode === 'bn-IN') {
-        activeMinimalPairsData.value = bengaliMinimalPairsData;
-        pageTitle.value = "Bengali Minimal Pairs Practice";
-        languageSpecificDefaultAudioPath.value = `audio/${langCode}/aligned`;
-    } else {
+    if (!allLanguagesData.value || !allLanguagesData.value[langCode]) {
         activeMinimalPairsData.value = null;
         pageTitle.value = "Language Not Supported";
         dataErrorMessage.value = `Minimal pairs data for language code "${langCode}" is not available.`;
-        showDataError.value = true;
-        currentFilteredPairs.value = [];
-        languageSpecificDefaultAudioPath.value = ''; // No default path for unsupported lang
-        currentPair.value = null;
-        correctWord.value = null;
-        availableTypes.value = [];
-        return;
-    }
-
-    if (!activeMinimalPairsData.value || Object.keys(activeMinimalPairsData.value).length === 0) {
-        dataErrorMessage.value = "No minimal pairs data found for this language, or data is not in the expected format.";
         showDataError.value = true;
         currentFilteredPairs.value = [];
         languageSpecificDefaultAudioPath.value = '';
         currentPair.value = null;
         correctWord.value = null;
         availableTypes.value = [];
-    } else {
-        showDataError.value = false;
-        dataErrorMessage.value = '';
-        populateTypeDropdown();
-        // Set default type for Bengali after populating types
-        if (langCode === 'bn-IN') {
-            const defaultBengaliType = "Dental ত vs. Retroflex ট";
-            if (availableTypes.value.includes(defaultBengaliType)) {
-                selectedType.value = defaultBengaliType;
-            }
-        }
-        handleTypeChange(); // This uses the selectedType (either 'All' or the default)
+        return;
     }
+
+    const langData = allLanguagesData.value[langCode];
+    activeMinimalPairsData.value = langData.types;
+    pageTitle.value = langData.languageName ? `${langData.languageName} Minimal Pairs` : "Minimal Pairs Practice";
+    languageSpecificDefaultAudioPath.value = langData.defaultAudioBasePath || `audio/${langCode}/aligned`;
+
+    showDataError.value = false;
+    dataErrorMessage.value = '';
+    populateTypeDropdown();
+
+    // Set default type if specified for the language (optional)
+    if (langData.defaultType && availableTypes.value.includes(langData.defaultType)) {
+        selectedType.value = langData.defaultType;
+    } else if (langCode === 'bn-IN') { // Fallback for existing bn-IN default
+        const defaultBengaliType = "Dental ত vs. Retroflex ট";
+        if (availableTypes.value.includes(defaultBengaliType)) {
+            selectedType.value = defaultBengaliType;
+        }
+    }
+    handleTypeChange();
 }
 
 watch(() => props.langCode, (newLangCode) => {
@@ -591,10 +600,13 @@ function handleAudioPlayerError() {
     }
 }
 
-onMounted(() => {
+onMounted(async () => {
     audioPlayer = new Audio();
     audioPlayer.addEventListener('ended', handleAudioPlayerEnded);
     audioPlayer.addEventListener('error', handleAudioPlayerError);
+
+    const dataLoaded = await fetchMinimalPairsData();
+    if (!dataLoaded) return; // Stop further initialization if data failed to load
 
     if (props.langCode) { // Initialize based on the prop
         initializeGameForLanguage(props.langCode);
