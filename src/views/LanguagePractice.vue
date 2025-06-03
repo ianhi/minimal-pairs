@@ -29,7 +29,7 @@
             </button>
         </div>
 
-        <div id="feedback" class="text-xl mt-4" :class="feedbackClass">{{ feedbackText }}</div>
+        <div id="feedback" class="text-xl mt-4 text-center" :class="feedbackClass">{{ feedbackText }}</div>
 
         <div class="flex flex-col md:flex-row justify-center gap-4 mt-6">
             <button id="submitGuessButton" @click="handleSubmitGuessOrNext" :disabled="!canSubmitGuess && !isNextPairState" class="button-primary w-full md:w-auto">
