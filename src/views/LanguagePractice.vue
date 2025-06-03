@@ -3,28 +3,35 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">{{ pageTitle }}</h1>
 
         <div class="mb-6">
-            <label for="typeSelect" class="block text-lg font-medium text-gray-700 mb-2">Select Minimal Pair Type:</label>
-            <select id="typeSelect" v-model="selectedType" @change="handleTypeChange" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 bg-white">
+            <label for="typeSelect" class="block text-lg font-medium text-gray-700 mb-2">Select Minimal Pair
+                Type:</label>
+            <select id="typeSelect" v-model="selectedType" @change="handleTypeChange"
+                class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700 bg-white">
                 <option value="All">All Types</option>
                 <option v-for="type in availableTypes" :key="type" :value="type">{{ type }}</option>
             </select>
         </div>
 
         <div class="flex flex-col items-center gap-4">
-            <p class="text-lg text-gray-600">Click "Play Word" to hear one of the words, then choose which one you heard.</p>
-            <div id="playingStatus" class="playing-indicator" :class="{ 'hidden': !playingStatusText }">{{ playingStatusText }}</div>
-            <button id="playButton" ref="playButtonRef" @click="playCorrectWord" :disabled="!canPlay" class="button-primary w-full max-w-xs">
-                Play Word <span :style="{ visibility: (isPlayingAudio && currentPlayback.originatorButton === playButtonRef) ? 'visible' : 'hidden' }">{{ playingEmoji }}</span>
+            <p class="text-lg text-gray-600">Click "Play Word" to hear one of the words, then choose which one you
+                heard.</p>
+            <div id="playingStatus" class="playing-indicator" :class="{ 'hidden': !playingStatusText }">{{
+                playingStatusText }}</div>
+            <button id="playButton" ref="playButtonRef" @click="playCorrectWord" :disabled="!canPlay"
+                class="button-primary w-full max-w-xs">
+                Play Word <span
+                    :style="{ visibility: (isPlayingAudio && currentPlayback.originatorButton === playButtonRef) ? 'visible' : 'hidden' }">{{
+                    playingEmoji }}</span>
             </button>
         </div>
 
         <div id="wordChoices" class="grid grid-cols-2 md:grid-cols-2 gap-4 mt-6 w-full">
-            <button id="word1Button" @click="handleChoice(word1, $event.target)" :disabled="!canSelectWord" 
-                    :class="getWordButtonClass(word1)" class="word-button">
+            <button id="word1Button" @click="handleChoice(word1, $event.target)" :disabled="!canSelectWord"
+                :class="getWordButtonClass(word1)" class="word-button">
                 {{ word1?.[0] }} {{ wordButtonEmoji(word1) }}
             </button>
-            <button id="word2Button" @click="handleChoice(word2, $event.target)" :disabled="!canSelectWord" 
-                    :class="getWordButtonClass(word2)" class="word-button">
+            <button id="word2Button" @click="handleChoice(word2, $event.target)" :disabled="!canSelectWord"
+                :class="getWordButtonClass(word2)" class="word-button">
                 {{ word2?.[0] }} {{ wordButtonEmoji(word2) }}
             </button>
         </div>
@@ -32,7 +39,8 @@
         <div id="feedback" class="text-xl mt-4 text-center" :class="feedbackClass">{{ feedbackText }}</div>
 
         <div class="flex flex-col md:flex-row justify-center gap-4 mt-6">
-            <button id="submitGuessButton" @click="handleSubmitGuessOrNext" :disabled="!canSubmitGuess && !isNextPairState" class="button-primary w-full md:w-auto">
+            <button id="submitGuessButton" @click="handleSubmitGuessOrNext"
+                :disabled="!canSubmitGuess && !isNextPairState" class="button-primary w-full md:w-auto">
                 {{ submitButtonText }}
             </button>
             <button id="nextButton" @click="skipPair" :disabled="!canSkip" class="button-secondary w-full md:w-auto">
@@ -48,35 +56,26 @@
             <button id="resetButton" @click="resetGame" class="button-secondary flex items-center justify-center gap-2">
                 Reset {{ resetEmoji }}
             </button>
-            <button id="settingsButton" @click="showSettingsModal = true" class="button-secondary flex items-center justify-center gap-2">
+            <button id="settingsButton" @click="showSettingsModal = true"
+                class="button-secondary flex items-center justify-center gap-2">
                 Settings {{ settingsEmoji }}
             </button>
-            <button id="historyButton" @click="showHistoryModal = true" class="button-secondary flex items-center justify-center gap-2">
+            <button id="historyButton" @click="showHistoryModal = true"
+                class="button-secondary flex items-center justify-center gap-2">
                 History {{ historyEmoji }}
             </button>
-            <router-link to="/" class="button-secondary flex items-center justify-center gap-2 text-center min-w-0">Home 🏠</router-link>
+            <router-link to="/" class="button-secondary flex items-center justify-center gap-2 text-center min-w-0">Home
+                🏠</router-link>
         </div>
     </div>
 
-    <SettingsModal 
-        :show="showSettingsModal" 
-        :current-settings="settings"
-        @update:show="showSettingsModal = $event"
-        @save-settings="handleSaveSettings"
-    />
+    <SettingsModal :show="showSettingsModal" :current-settings="settings" @update:show="showSettingsModal = $event"
+        @save-settings="handleSaveSettings" />
 
-    <HistoryModal
-        :show="showHistoryModal"
-        :history="gameHistory"
-        @update:show="showHistoryModal = $event"
-        @clear-history="clearHistory"
-    />
+    <HistoryModal :show="showHistoryModal" :history="gameHistory" @update:show="showHistoryModal = $event"
+        @clear-history="clearHistory" />
 
-    <DataErrorModal
-        :show="showDataError"
-        :message="dataErrorMessage"
-        @update:show="showDataError = $event"
-    />
+    <DataErrorModal :show="showDataError" :message="dataErrorMessage" @update:show="showDataError = $event" />
 </template>
 
 <script setup>
@@ -88,7 +87,7 @@ import HistoryModal from '../components/HistoryModal.vue';   // Adjusted path
 import DataErrorModal from '../components/DataErrorModal.vue'; // Adjusted path
 
 const props = defineProps({
-  langCode: String
+    langCode: String
 });
 
 // Emojis
@@ -176,7 +175,7 @@ function initializeGameForLanguage(langCode) {
         showDataError.value = true;
         currentFilteredPairs.value = [];
         languageSpecificDefaultAudioPath.value = ''; // No default path for unsupported lang
-        currentPair.value = null; 
+        currentPair.value = null;
         correctWord.value = null;
         availableTypes.value = [];
         return;
@@ -187,7 +186,7 @@ function initializeGameForLanguage(langCode) {
         showDataError.value = true;
         currentFilteredPairs.value = [];
         languageSpecificDefaultAudioPath.value = '';
-        currentPair.value = null; 
+        currentPair.value = null;
         correctWord.value = null;
         availableTypes.value = [];
     } else {
@@ -210,7 +209,7 @@ watch(() => props.langCode, (newLangCode) => {
         initializeGameForLanguage(newLangCode);
     }
 }, { immediate: true });
- 
+
 
 function wordButtonEmoji(wordObj) {
     if (!settings.playGuessOnClick || !wordObj) return '';
@@ -338,11 +337,11 @@ function startNewRound() {
 
     let pairItem;
     // Check if nextPairToPrefetch is valid and still in currentFilteredPairs
-    const isNextPairValid = nextPairToPrefetch.value && 
-                           currentFilteredPairs.value.some(pItem => 
-                               pItem.pair === nextPairToPrefetch.value.pair && 
-                               pItem.audioBasePath === nextPairToPrefetch.value.audioBasePath
-                           );
+    const isNextPairValid = nextPairToPrefetch.value &&
+        currentFilteredPairs.value.some(pItem =>
+            pItem.pair === nextPairToPrefetch.value.pair &&
+            pItem.audioBasePath === nextPairToPrefetch.value.audioBasePath
+        );
 
     if (isNextPairValid) {
         pairItem = nextPairToPrefetch.value;
@@ -437,15 +436,15 @@ function speakWordTTS(wordText, originatorButton, onEndCallback) {
     }
 
     const utterance = new SpeechSynthesisUtterance(wordText);
-    utterance.lang = props.langCode; 
+    utterance.lang = props.langCode;
     utterance.rate = settings.speechRate;
     utterance.pitch = settings.speechPitch;
 
     const voices = window.speechSynthesis.getVoices();
     let selectedVoice = null;
     if (props.langCode) {
-        selectedVoice = voices.find(voice => voice.lang === props.langCode) || 
-                        voices.find(voice => voice.lang.startsWith(props.langCode.substring(0,2)));
+        selectedVoice = voices.find(voice => voice.lang === props.langCode) ||
+            voices.find(voice => voice.lang.startsWith(props.langCode.substring(0, 2)));
     }
     if (selectedVoice) utterance.voice = selectedVoice;
 
@@ -576,13 +575,13 @@ function handleAudioPlayerEnded() {
 
 function handleAudioPlayerError() {
     if (!currentPlayback.isMP3 || !isPlayingAudio.value) return;
-    
+
     const wordToSpeak = currentPlayback.wordObject;
     const originator = currentPlayback.originatorButton;
     const originalCallback = currentPlayback.onEndCallback;
 
     // Mark current MP3 attempt as failed, try TTS
-    currentPlayback.isMP3 = false; 
+    currentPlayback.isMP3 = false;
 
     if (wordToSpeak && typeof wordToSpeak[0] === 'string' && originator) {
         console.warn(`MP3 error for ${wordToSpeak[1]}, attempting TTS fallback for: ${wordToSpeak[0]}`);
@@ -614,15 +613,21 @@ onMounted(() => {
 <style scoped>
 /* Styles moved from App.vue, now scoped to LanguagePractice.vue */
 .container {
-    display: block; /* Ensure it's a block-level element for margin:auto centering */
-    width: 100%;    /* Allow it to take full width of its parent initially */
-    max-width: 800px; /* Constrain its maximum width */
-    margin: 2rem auto; /* Center the block and add vertical margin */
-    padding: 1rem;     /* Internal padding */
+    display: block;
+    /* Ensure it's a block-level element for margin:auto centering */
+    width: 100%;
+    /* Allow it to take full width of its parent initially */
+    max-width: 800px;
+    /* Constrain its maximum width */
+    margin: 2rem auto;
+    /* Center the block and add vertical margin */
+    padding: 1rem;
+    /* Internal padding */
 }
 
-.modal-overlay.show { /* Assuming modal styles are handled by modal components or globally */
-    display: flex; 
+.modal-overlay.show {
+    /* Assuming modal styles are handled by modal components or globally */
+    display: flex;
 }
 
 .playing-indicator.hidden {
@@ -630,23 +635,31 @@ onMounted(() => {
 }
 
 .word-button.selected {
-    border-color: #3b82f6; /* Example: blue-500 */
+    border-color: #3b82f6;
+    /* Example: blue-500 */
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
+
 .feedback-correct {
-    color: #16a34a; /* Example: green-600 */
+    color: #16a34a;
+    /* Example: green-600 */
 }
+
 .feedback-incorrect {
-    color: #dc2626; /* Example: red-600 */
+    color: #dc2626;
+    /* Example: red-600 */
 }
+
 .bg-green-500-custom {
     background-color: #22c55e !important;
     color: white !important;
 }
+
 .bg-red-500-custom {
     background-color: #ef4444 !important;
     color: white !important;
 }
+
 /* History item styles are within HistoryModal.vue, but if there were overrides: */
 /* .history-item { ... } */
 </style>

@@ -16,15 +16,18 @@
                 </div>
                 <div class="modal-setting-item">
                     <label for="modalAutoPlayDelay">Auto-play delay (ms)</label>
-                    <input type="number" id="modalAutoPlayDelay" ref="modalAutoPlayDelayInputRef" min="0" v-model.number="editableSettings.autoPlayDelay" :disabled="!editableSettings.autoPlayNextWord">
+                    <input type="number" id="modalAutoPlayDelay" ref="modalAutoPlayDelayInputRef" min="0"
+                        v-model.number="editableSettings.autoPlayDelay" :disabled="!editableSettings.autoPlayNextWord">
                 </div>
                 <div class="modal-setting-item">
                     <label for="modalSpeechRate">Speech Rate (0.1-10)</label>
-                    <input type="number" id="modalSpeechRate" min="0.1" max="10" step="0.1" v-model.number="editableSettings.speechRate">
+                    <input type="number" id="modalSpeechRate" min="0.1" max="10" step="0.1"
+                        v-model.number="editableSettings.speechRate">
                 </div>
                 <div class="modal-setting-item">
                     <label for="modalSpeechPitch">Speech Pitch (0-2)</label>
-                    <input type="number" id="modalSpeechPitch" min="0" max="2" step="0.1" v-model.number="editableSettings.speechPitch">
+                    <input type="number" id="modalSpeechPitch" min="0" max="2" step="0.1"
+                        v-model.number="editableSettings.speechPitch">
                 </div>
             </div>
             <div class="modal-footer">
@@ -73,7 +76,7 @@ function save() {
     if (editableSettings.speechRate > 10) editableSettings.speechRate = 10;
     if (isNaN(editableSettings.speechPitch) || editableSettings.speechPitch < 0) editableSettings.speechPitch = 0;
     if (editableSettings.speechPitch > 2) editableSettings.speechPitch = 2;
-    
+
     emit('save-settings', toRaw(editableSettings)); // Emit a plain object
     closeModal();
 }
