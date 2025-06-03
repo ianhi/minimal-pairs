@@ -77,7 +77,7 @@
                             post-processing to align
                             the audio in time. For Bangla I have asked a native speaker i personally know to the audio
                             and will update this once I that has happened. The Bangla audio was generated
-                            with the bn-IN-Chirp3-HD-Aoede voice.
+                            with the bn-IN-Wavenet-D model with prosody controls to minimize word to word variation.
                         </p>
                     </div>
                     <div>
