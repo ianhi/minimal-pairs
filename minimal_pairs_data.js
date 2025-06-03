@@ -52,7 +52,7 @@ export const allMinimalPairsData = {
         ]
     },
     "Dental ত vs. Retroflex ট":{
-        path: "audio/dental-retroflex",
+        path: "audio/bn-IN/dental-retroflex",
         pairs :[
         [["তাল", "tal"], ["টাল", "ttal"]],
         [["দান", "dan"], ["ডান", "ddan"]],

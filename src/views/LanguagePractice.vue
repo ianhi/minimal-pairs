@@ -91,8 +91,6 @@ const props = defineProps({
   langCode: String
 });
 
-const DEFAULT_AUDIO_BASE_PATH = 'audio/aligned'; // This might become language-specific later
-
 // Emojis
 const playingEmoji = '🔊';
 const stoppedEmoji = '🔈';
@@ -109,8 +107,9 @@ const pageTitle = ref("Minimal Pairs Practice");
 const currentPair = ref(null);
 const correctWord = ref(null);
 const score = ref(0);
+const languageSpecificDefaultAudioPath = ref(''); // To store e.g., 'audio/bn-IN/aligned'
 const totalAttempts = ref(0);
-const currentPairAudioBasePath = ref(DEFAULT_AUDIO_BASE_PATH);
+const currentPairAudioBasePath = ref(''); // Initialize as empty, will be set in startNewRound
 const isPlayingAudio = ref(false);
 const userSelectedWord = ref(null);
 const userSelectedButtonElement = ref(null);
@@ -169,12 +168,14 @@ function initializeGameForLanguage(langCode) {
     if (langCode === 'bn-IN') {
         activeMinimalPairsData.value = bengaliMinimalPairsData;
         pageTitle.value = "Bengali Minimal Pairs Practice";
+        languageSpecificDefaultAudioPath.value = `audio/${langCode}/aligned`;
     } else {
         activeMinimalPairsData.value = null;
         pageTitle.value = "Language Not Supported";
         dataErrorMessage.value = `Minimal pairs data for language code "${langCode}" is not available.`;
         showDataError.value = true;
         currentFilteredPairs.value = [];
+        languageSpecificDefaultAudioPath.value = ''; // No default path for unsupported lang
         currentPair.value = null; 
         correctWord.value = null;
         availableTypes.value = [];
@@ -185,6 +186,7 @@ function initializeGameForLanguage(langCode) {
         dataErrorMessage.value = "No minimal pairs data found for this language, or data is not in the expected format.";
         showDataError.value = true;
         currentFilteredPairs.value = [];
+        languageSpecificDefaultAudioPath.value = '';
         currentPair.value = null; 
         correctWord.value = null;
         availableTypes.value = [];
@@ -253,8 +255,9 @@ function handleTypeChange() {
 
     if (type === 'All') {
         Object.values(activeMinimalPairsData.value).forEach(typeData => {
-            if (typeData && typeData.pairs) {
-                const basePath = typeData.path || DEFAULT_AUDIO_BASE_PATH;
+            if (typeData && typeData.pairs && typeData.pairs.length > 0) {
+                const basePath = typeData.path || languageSpecificDefaultAudioPath.value;
+                if (!basePath) console.warn(`No audio base path for type in 'All', lang: ${props.langCode}`);
                 typeData.pairs.forEach(pair => {
                     currentFilteredPairs.value.push({ pair: pair, audioBasePath: basePath });
                 });
@@ -262,11 +265,15 @@ function handleTypeChange() {
         });
     } else {
         const typeData = activeMinimalPairsData.value[type];
-        if (typeData && typeData.pairs) {
-            const basePath = typeData.path || DEFAULT_AUDIO_BASE_PATH;
+        if (typeData && typeData.pairs && typeData.pairs.length > 0) {
+            const basePath = typeData.path || languageSpecificDefaultAudioPath.value;
+            if (!basePath) console.warn(`No audio base path for type: ${type}, lang: ${props.langCode}`);
             typeData.pairs.forEach(pair => {
                 currentFilteredPairs.value.push({ pair: pair, audioBasePath: basePath });
             });
+        } else {
+            // console.warn(`No pairs found for type: ${type} or typeData is missing.`);
+            // currentFilteredPairs.value will remain empty or be emptied by resetGame
         }
     }
     resetGame();
