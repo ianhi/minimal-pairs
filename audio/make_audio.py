@@ -168,7 +168,38 @@ dentalRetroflexFilenamesUniqueASCII = [
     [["ভিতর", "bhitor"], ["ভিটার", "bhittor"]],
     [["পাথ", "path"], ["পাঠ", "patth"]],
 ]
+oral_nasal = {
+    "path": "audio/bn-IN/oral-nasal",
+    "pairs": [
+        [["কাঁদা", "kãda"], ["কাদা", "kada"]],
+        [["বাঁশ", "bãsh"], ["বাস", "bash"]],
+        [["আঁশ", "ãsh"], ["আশ", "ash"]],
+        [["বাঁধা", "bãdha"], ["বাধা", "badha"]],
+        [["চাঁপা", "chãpa"], ["চাপা", "chapa"]],
+        [["ধোঁয়া", "dhõa"], ["ধোয়া", "dhoa"]],
+        [["শোঁক", "shõk"], ["শোক", "shok"]],
+        [["গোঁফ", "gõph"], ["গোপ", "gop"]],
+        [["হাঁস", "hãs"], ["হাস", "has"]],
+        [["চাঁই", "chãi"], ["চাই", "chai"]],
+        [["কুঁড়ি", "kũṛi"], ["কুড়ি", "kuṛi_1"]],
+        [["শাঁস", "shãs"], ["শাস", "shas"]],
+        [["পিঁয়াজ", "pĩyaj"], ["পিয়াজ", "piyaj"]],
+        [["পুঁটি", "pũṭi"], ["পুটি", "puṭi"]],
+        [["শুঁড়", "shũṛ"], ["শুড়", "shuṛ"]],
+        [["কাঁটা", "kãṭa"], ["কাটা", "kaṭa_1"]],
+        [["আঁকা", "ãka"], ["আকা", "aka"]],
+        [["ফাঁক", "fhãk"], ["ফাক", "fhak"]],
+        [["ঝাঁক", "jhãk"], ["ঝাক", "jhak"]],
+        [["ঠোঁট", "ṭhõṭ"], ["ঠোট", "ṭhot"]],
+        [["লেংটা", "lẽṅṭa"], ["লেটা", "leṭa"]],
+        [["আঁটি", "ãṭi"], ["আটি", "aṭi"]],
+        [["বেঁকে", "bẽke"], ["বেকে", "beke"]],
+        [["ধোঁকা", "dhõka"], ["ধোকা", "dhoka"]],
+        [["ভাঙন", "bhãṅon"], ["ভাগন", "bhagon"]],
+    ],
+}
 
+OUTPUT_DIR = "generated_audio/bn-IN/oral-nasal"  # For synthesized files
 if __name__ == "__main__":
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
@@ -190,7 +221,7 @@ if __name__ == "__main__":
 
     # Iterate directly over all words, assuming no duplicates are present
     # as per the new requirement.
-    for i, pair in enumerate(dentalRetroflexFilenamesUniqueASCII):
+    for i, pair in enumerate(oral_nasal["pairs"]):
         print(f"Synthesizing Pair {i + 1}/{len(dentalRetroflexFilenamesUniqueASCII)}")
         print(f" - {pair[0][0]}")
         print(f" - {pair[1][0]}")
@@ -205,10 +236,9 @@ if __name__ == "__main__":
                 volume_gain_db=consistent_volume_gain_db,
                 effects_profile_id=consistent_effects_profile,
             )
-            process_single_audio_file(
-                Path(OUTPUT_DIR) / f"{transliteration}.wav",
-                Path(TRIMMED_OUTPUT_DIR) / f"{transliteration}.wav",
-                silence_thresh=-50,
-                keep_silence_ms=100,
-            )
-
+            # process_single_audio_file(
+            #     Path(OUTPUT_DIR) / f"{transliteration}.wav",
+            #     Path(TRIMMED_OUTPUT_DIR) / f"{transliteration}.wav",
+            #     silence_thresh=-50,
+            #     keep_silence_ms=100,
+            # )
