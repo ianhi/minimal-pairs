@@ -4,7 +4,8 @@
 # "google-cloud-texttospeech",
 # "scipy",
 # "librosa",
-# "rich"
+# "rich",
+# "soundfile"
 # ]
 # ///
 
@@ -36,6 +37,69 @@ def get_minimal_voice_name(full_voice_name):
     if len(parts) >= 3 and parts[0] == 'bn' and parts[1] == 'IN':
         return '-'.join(parts[2:]).lower()
     return full_voice_name.lower()
+
+
+def validate_audio_file(file_path, min_file_size=5000, min_duration=0.3):
+    """
+    Validate that an audio file contains actual audio content.
+    
+    Args:
+        file_path: Path to the audio file
+        min_file_size: Minimum file size in bytes (default: 5KB)
+        min_duration: Minimum duration in seconds (default: 0.3s)
+    
+    Returns:
+        dict with validation results: {"valid": bool, "reason": str, "file_size": int, "duration": float}
+    """
+    try:
+        # Check file size first (quick check)
+        file_size = file_path.stat().st_size
+        if file_size < min_file_size:
+            return {
+                "valid": False, 
+                "reason": f"File too small ({file_size} bytes, minimum: {min_file_size})",
+                "file_size": file_size,
+                "duration": 0
+            }
+        
+        # Check audio duration and content
+        data, sample_rate = sf.read(str(file_path))
+        duration = len(data) / sample_rate
+        
+        if duration < min_duration:
+            return {
+                "valid": False,
+                "reason": f"Audio too short ({duration:.2f}s, minimum: {min_duration}s)",
+                "file_size": file_size,
+                "duration": duration
+            }
+        
+        # Check if audio contains actual content (not just silence)
+        if len(data) > 0:
+            # Calculate RMS to detect if there's actual audio content
+            rms = (data ** 2).mean() ** 0.5
+            if rms < 1e-6:  # Very quiet audio might indicate a problem
+                return {
+                    "valid": False,
+                    "reason": f"Audio appears to be silent (RMS: {rms:.2e})",
+                    "file_size": file_size,
+                    "duration": duration
+                }
+        
+        return {
+            "valid": True,
+            "reason": "Audio validation passed",
+            "file_size": file_size,
+            "duration": duration
+        }
+        
+    except Exception as e:
+        return {
+            "valid": False,
+            "reason": f"Error reading audio file: {str(e)}",
+            "file_size": file_path.stat().st_size if file_path.exists() else 0,
+            "duration": 0
+        }
 
 
 def synthesize_raw_audio(
@@ -82,7 +146,8 @@ def process_word_recording(
     voice_config,
     base_audio_config,
     overwrite=False,
-    min_file_size=1000,  # Minimum file size in bytes
+    min_file_size=5000,  # Minimum file size in bytes
+    min_duration=0.3,    # Minimum duration in seconds
     max_retries=3,
 ):
     """Process a single word recording and save to tree structure."""
@@ -102,11 +167,21 @@ def process_word_recording(
 
     # Check if file already exists and skip if not overwriting
     if output_file.exists() and not overwrite:
-        file_size = output_file.stat().st_size
-        if file_size > min_file_size:
-            return {"status": "skipped", "file_size": file_size, "path": output_file}
+        validation = validate_audio_file(output_file, min_file_size, min_duration)
+        if validation["valid"]:
+            return {
+                "status": "skipped", 
+                "file_size": validation["file_size"], 
+                "duration": validation["duration"],
+                "path": output_file
+            }
         else:
-            return {"status": "regenerate", "file_size": file_size, "path": output_file}
+            return {
+                "status": "regenerate", 
+                "file_size": validation["file_size"],
+                "reason": validation["reason"],
+                "path": output_file
+            }
 
     # Retry logic for failed recordings
     for attempt in range(max_retries):
@@ -129,16 +204,31 @@ def process_word_recording(
                 # Save processed audio file
                 sf.write(str(output_file), samples[splits[0][0] : splits[0][1]], sample_rate)
                 
-                # Validate file size
-                file_size = output_file.stat().st_size
-                if file_size < min_file_size:
-                    if attempt < max_retries - 1:
-                        # Retry with same voice
-                        continue
-                    else:
-                        return {"status": "failed", "reason": f"File too small after {max_retries} attempts", "file_size": file_size}
+                # Validate the generated audio file thoroughly
+                validation = validate_audio_file(output_file, min_file_size, min_duration)
                 
-                return {"status": "success", "file_size": file_size, "path": output_file, "voice": voice_config['voice_name']}
+                if validation["valid"]:
+                    return {
+                        "status": "success", 
+                        "file_size": validation["file_size"], 
+                        "duration": validation["duration"],
+                        "path": output_file, 
+                        "voice": voice_config['voice_name']
+                    }
+                else:
+                    # File failed validation, delete it and retry if possible
+                    if output_file.exists():
+                        output_file.unlink()  # Delete the invalid file
+                    
+                    if attempt < max_retries - 1:
+                        continue  # Retry with same voice
+                    else:
+                        return {
+                            "status": "failed", 
+                            "reason": f"Audio validation failed after {max_retries} attempts: {validation['reason']}", 
+                            "file_size": validation.get("file_size", 0),
+                            "duration": validation.get("duration", 0)
+                        }
             else:
                 if attempt < max_retries - 1:
                     voice_config = generate_random_voice_config(base_audio_config)
@@ -238,8 +328,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "--min-file-size",
         type=int,
-        default=1000,
-        help="Minimum file size in bytes to consider a recording valid (default: 1000)",
+        default=5000,
+        help="Minimum file size in bytes to consider a recording valid (default: 5000)",
+    )
+    parser.add_argument(
+        "--min-duration",
+        type=float,
+        default=0.3,
+        help="Minimum audio duration in seconds to consider a recording valid (default: 0.3)",
     )
     args = parser.parse_args()
 
@@ -341,6 +437,7 @@ if __name__ == "__main__":
                     base_audio_config=base_audio_config,
                     overwrite=args.overwrite,
                     min_file_size=args.min_file_size,
+                    min_duration=args.min_duration,
                 )
 
                 # Update statistics based on result
@@ -385,6 +482,8 @@ if __name__ == "__main__":
     table.add_row("Failed", str(stats["failed"]))
     table.add_row("Skipped", str(stats["skipped"]))
     table.add_row("Regenerated", str(stats["regenerated"]))
+    table.add_row("Min File Size", f"{args.min_file_size} bytes")
+    table.add_row("Min Duration", f"{args.min_duration}s")
     table.add_row("Total Time", f"{elapsed_time:.1f}s")
     table.add_row("Output Path", str(base_output_path))
     
