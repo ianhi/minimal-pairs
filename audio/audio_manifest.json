@@ -1,0 +1,2519 @@
+{
+  "words": {
+    "kap": {
+      "voices": [
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "pũṭi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "khata": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "pit": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "pakhi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ant": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "tel": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "paka": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "tir": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "kak": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ãka": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-b",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "ttush": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "tthala": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "bẽke": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "kal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "tton": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ṭop": {
+      "voices": [
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "jhak": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "puṭi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "bhagon": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "chhuri": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "khal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "khak": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird"
+      ],
+      "extension": "wav"
+    },
+    "phor": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "patta": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird"
+      ],
+      "extension": "wav"
+    },
+    "jhãk": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "chhok": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "piyaj": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "bãdha": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "shũṛ": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "antt": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "chai": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "patth": {
+      "voices": [
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "khap": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ddhora": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird"
+      ],
+      "extension": "wav"
+    },
+    "sad": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "ãsh": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "aṭi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-b",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "kũṛi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "shãs": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "bhitt": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "dan": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "dhõka": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "ddan": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "tthal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ddag": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "dag": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "leṭa": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "ṭhuki": {
+      "voices": [
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "chhal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird"
+      ],
+      "extension": "wav"
+    },
+    "dhõa": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "path": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "shok": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "phan": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "dham": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "pata": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "chãpa": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "chhap": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ssad": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "khol": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "kada": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "chhun": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "tali": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "kuṛi_1": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "poṛ": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "dhora": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "pal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ṭuki": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "shuṛ": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "kol": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "moti": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "tal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "tala": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "chãi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "tap": {
+      "voices": [
+        "chirp3-hd-achird"
+      ],
+      "extension": "wav"
+    },
+    "ṭhop": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird"
+      ],
+      "extension": "wav"
+    },
+    "ttar": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ãṭi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-b",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "bash": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "chun": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "aka": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "fhak": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "lẽṅṭa": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "ṭhan": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ton": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ṭhõṭ": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "tush": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "thir": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "phaka": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "bãsh": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "nol": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "dhoka": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "shas": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "nkon": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "thel": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird"
+      ],
+      "extension": "wav"
+    },
+    "phaki": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "chal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "dhoa": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "chapa": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "chap": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ash": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "motti": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "has": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "khoi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "ṭaka": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "phal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "chok": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "kotha": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "thap": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "pitt": {
+      "voices": [
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "kãṭa": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-b",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "gõph": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "fhãk": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "katta": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "beke": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "kãda": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "thal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "shõk": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "ṭan": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird"
+      ],
+      "extension": "wav"
+    },
+    "tar": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ṭhaka": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "bhãṅon": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "ttal": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck"
+      ],
+      "extension": "wav"
+    },
+    "koi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "nnol": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "ddham": {
+      "voices": [
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "kon": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "bhit": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "gop": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "churi": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "pĩyaj": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "pan": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-aoede"
+      ],
+      "extension": "wav"
+    },
+    "ṭhot": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "ttali": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "thala": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib"
+      ],
+      "extension": "wav"
+    },
+    "kaṭa_1": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "hãs": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    },
+    "badha": {
+      "voices": [
+        "chirp3-hd-achernar",
+        "chirp3-hd-achird",
+        "chirp3-hd-algenib",
+        "chirp3-hd-algieba",
+        "chirp3-hd-alnilam",
+        "chirp3-hd-aoede",
+        "chirp3-hd-autonoe",
+        "chirp3-hd-callirrhoe",
+        "chirp3-hd-charon",
+        "chirp3-hd-despina",
+        "chirp3-hd-enceladus",
+        "chirp3-hd-erinome",
+        "chirp3-hd-fenrir",
+        "chirp3-hd-gacrux",
+        "chirp3-hd-iapetus",
+        "chirp3-hd-kore",
+        "chirp3-hd-laomedeia",
+        "chirp3-hd-leda",
+        "chirp3-hd-orus",
+        "chirp3-hd-puck",
+        "chirp3-hd-pulcherrima",
+        "chirp3-hd-rasalgethi",
+        "chirp3-hd-sadachbia",
+        "chirp3-hd-sadaltager",
+        "chirp3-hd-schedar",
+        "chirp3-hd-sulafat",
+        "chirp3-hd-umbriel",
+        "wavenet-a",
+        "wavenet-b",
+        "wavenet-c",
+        "wavenet-d"
+      ],
+      "extension": "wav"
+    }
+  },
+  "generated_at": "2025-07-25T10:20:09.896133",
+  "total_words": 138,
+  "total_files": 1822
+}
