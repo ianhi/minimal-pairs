@@ -14,8 +14,6 @@
         <div class="flex flex-col items-center gap-4">
             <p class="text-lg text-gray-600">Click "Play Word" to hear one of the words, then choose which one you
                 heard.</p>
-            <div id="playingStatus" class="playing-indicator debug-message" :class="{ 'hidden': !playingStatusText }">{{
-                playingStatusText }}</div>
             <button id="playButton" ref="playButtonRef" @click="playCorrectWord" :disabled="!canPlay"
                 class="button-primary w-full max-w-xs">
                 Play Word <span
@@ -75,6 +73,23 @@
         @clear-history="clearHistory" />
 
     <DataErrorModal :show="showDataError" :message="dataErrorMessage" @update:show="showDataError = $event" />
+
+    <!-- Debug Audio Modal (Dev Only) -->
+    <div v-if="isDevelopment && showDebugModal" 
+         class="fixed z-50 bg-blue-50 border border-blue-300 rounded-lg shadow-lg p-4"
+         :style="{ top: debugModalPosition.y + 'px', left: debugModalPosition.x + 'px', cursor: isDragging ? 'grabbing' : 'grab' }"
+         @mousedown="startDragging"
+         @touchstart="startDragging">
+        <div class="flex justify-between items-start mb-2">
+            <h3 class="font-semibold text-blue-900">Audio Debug Info</h3>
+            <button @click="showDebugModal = false" class="text-blue-600 hover:text-blue-800 ml-4">
+                ✕
+            </button>
+        </div>
+        <div class="text-sm font-mono text-blue-800 whitespace-pre-wrap max-w-md overflow-auto max-h-64">
+            {{ playingStatusText }}
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -136,6 +151,13 @@ const showSettingsModal = ref(false);
 const showHistoryModal = ref(false);
 const showDataError = ref(false);
 const dataErrorMessage = ref('');
+
+// Debug modal state
+const isDevelopment = ref(import.meta.env.DEV);
+const showDebugModal = ref(false);
+const debugModalPosition = ref({ x: 20, y: 20 });
+const isDragging = ref(false);
+const dragOffset = ref({ x: 0, y: 0 });
 
 const playButtonRef = ref(null);
 
@@ -555,15 +577,17 @@ function speakWord(wordObject, originatorButton, onEndCallback) {
         const audioPath = `${import.meta.env.BASE_URL}${currentPairAudioBasePath.value}/${audioFilenameBase}/${audioFilename}.${extension}`;
 
         // DEBUG: Show which file is being played
-        const debugInfo = `
-            Playing: ${audioFilename}.${extension}
-            Word: ${wordObject[0]}
-            Button: ${buttonType}
-            Voice: ${voiceName} of ${availableVoices.value[audioFilenameBase]?.voices?.length || 'unknown'} available
-            Is Correct Word: ${wordObject[0] === correctWord.value?.[0] ? 'Yes' : 'No'}
-        `;
+        const debugInfo = `Playing: ${audioFilename}.${extension}
+Word: ${wordObject[0]}
+Button: ${buttonType}
+Voice: ${voiceName} of ${availableVoices.value[audioFilenameBase]?.voices?.length || 'unknown'} available
+Is Correct Word: ${wordObject[0] === correctWord.value?.[0] ? 'Yes' : 'No'}`;
         console.log(debugInfo);
-        playingStatusText.value = `Playing: ${audioFilename}.${extension} (Voice: ${voiceName})`;
+        
+        if (isDevelopment.value) {
+            playingStatusText.value = debugInfo;
+            showDebugModal.value = true;
+        }
 
         currentPlayback.isMP3 = true; // Still using this flag for "has audio file" vs TTS
         audioPlayer.src = audioPath;
@@ -574,7 +598,10 @@ function speakWord(wordObject, originatorButton, onEndCallback) {
     } else {
         currentPlayback.isMP3 = false;
         console.log(`Using TTS fallback for: ${wordObject[0]}`);
-        playingStatusText.value = `Using TTS for: ${wordObject[0]}`;
+        if (isDevelopment.value) {
+            playingStatusText.value = `Using TTS fallback for: ${wordObject[0]}`;
+            showDebugModal.value = true;
+        }
         speakWordTTS(wordObject[0], originatorButton, onEndCallback);
     }
 }
@@ -613,13 +640,11 @@ function finalizePlayback(success) {
     const { onEndCallback, isMP3, wordObject } = currentPlayback;
 
     if (!success) {
-        const errorType = isMP3 ? "MP3 Audio" : "Speech Synthesis";
-        playingStatusText.value = `Error playing word. (${errorType})`;
-    } else {
-        // Clear the debug message after a short delay so user can see it
-        setTimeout(() => {
-            playingStatusText.value = '';
-        }, 1000);
+        const errorType = isMP3 ? "Audio File" : "Speech Synthesis";
+        if (isDevelopment.value) {
+            playingStatusText.value = `Error playing word. (${errorType})`;
+            showDebugModal.value = true;
+        }
     }
 
     if (onEndCallback) {
@@ -840,6 +865,45 @@ onMounted(async () => {
     window.speechSynthesis.getVoices(); // Trigger voice loading
 });
 
+// Draggable modal functions
+function startDragging(e) {
+    if (e.target.tagName === 'BUTTON') return; // Don't drag when clicking close button
+    
+    isDragging.value = true;
+    const event = e.type.includes('mouse') ? e : e.touches[0];
+    
+    dragOffset.value = {
+        x: event.clientX - debugModalPosition.value.x,
+        y: event.clientY - debugModalPosition.value.y
+    };
+    
+    document.addEventListener('mousemove', handleDragging);
+    document.addEventListener('mouseup', stopDragging);
+    document.addEventListener('touchmove', handleDragging);
+    document.addEventListener('touchend', stopDragging);
+    
+    e.preventDefault();
+}
+
+function handleDragging(e) {
+    if (!isDragging.value) return;
+    
+    const event = e.type.includes('mouse') ? e : e.touches[0];
+    
+    debugModalPosition.value = {
+        x: Math.max(0, Math.min(window.innerWidth - 300, event.clientX - dragOffset.value.x)),
+        y: Math.max(0, Math.min(window.innerHeight - 200, event.clientY - dragOffset.value.y))
+    };
+}
+
+function stopDragging() {
+    isDragging.value = false;
+    document.removeEventListener('mousemove', handleDragging);
+    document.removeEventListener('mouseup', stopDragging);
+    document.removeEventListener('touchmove', handleDragging);
+    document.removeEventListener('touchend', stopDragging);
+}
+
 </script>
 
 <style scoped>
@@ -892,19 +956,6 @@ onMounted(async () => {
     color: white !important;
 }
 
-/* Debug message styling */
-.debug-message {
-    background-color: #f0f9ff;
-    border: 1px solid #93c5fd;
-    color: #1e40af;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-    font-family: monospace;
-    font-size: 0.875rem;
-    margin: 0.5rem 0;
-    max-width: 100%;
-    overflow-wrap: break-word;
-}
 
 /* History item styles are within HistoryModal.vue, but if there were overrides: */
 /* .history-item { ... } */
