@@ -709,15 +709,15 @@ function processGuess() {
     submitButtonText.value = "Next Pair";
 }
 
-function handleSubmitGuessOrNext() {
+async function handleSubmitGuessOrNext() {
     if (submitButtonText.value === "Submit Guess") {
         if (!userSelectedWord.value) return;
         processGuess();
     } else {
         window.speechSynthesis.cancel();
         if (settings.autoPlayNextWord) {
-            setTimeout(() => {
-                startNewRound();
+            setTimeout(async () => {
+                await startNewRound();
                 if (currentFilteredPairs.value.length > 0) playCorrectWord();
             }, settings.autoPlayDelay);
         } else {
@@ -730,8 +730,8 @@ function skipPair() {
     window.speechSynthesis.cancel();
     // Logic is same as "Next Pair" without processing a guess
     if (settings.autoPlayNextWord) {
-        setTimeout(() => {
-            startNewRound();
+        setTimeout(async () => {
+            await startNewRound();
             if (currentFilteredPairs.value.length > 0) playCorrectWord();
         }, settings.autoPlayDelay);
     } else {
