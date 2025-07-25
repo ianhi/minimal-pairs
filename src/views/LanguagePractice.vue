@@ -154,6 +154,9 @@ const prefetchLinkWord2 = ref(null);
 // Cache for discovered audio files per word
 const audioCache = ref({});
 
+// Audio manifest loaded from JSON
+const audioManifest = ref(null);
+
 const word1 = computed(() => currentPair.value ? currentPair.value.find(p => p[0] === shuffledWords.value[0]?.[0]) : null);
 const word2 = computed(() => currentPair.value ? currentPair.value.find(p => p[0] === shuffledWords.value[1]?.[0]) : null);
 const shuffledWords = ref([]);
@@ -521,27 +524,30 @@ function speakWord(wordObject, originatorButton, onEndCallback) {
     let voiceName = 'chirp3-hd-aoede'; // Default voice
     let buttonType = "unknown";
     
+    const audioFilenameBase = wordObject[1]; // transliteration
+    const voiceData = availableVoices.value[audioFilenameBase];
+    const availableVoicesForWord = voiceData?.voices || ['chirp3-hd-aoede'];
+    
     // If this is the target word (played from the play button)
     if (originatorButton === playButtonRef.value) {
         voiceName = wordVoiceSelections.value.target;
         buttonType = "target";
     } 
     // If this is a choice word (played when clicking on a word option)
+    // Randomly select a new voice each time for variety
     else if (wordObject[0] === word1.value?.[0]) {
-        voiceName = wordVoiceSelections.value.choice1;
+        voiceName = availableVoicesForWord[Math.floor(Math.random() * availableVoicesForWord.length)];
         buttonType = "choice1";
     } 
     else if (wordObject[0] === word2.value?.[0]) {
-        voiceName = wordVoiceSelections.value.choice2;
+        voiceName = availableVoicesForWord[Math.floor(Math.random() * availableVoicesForWord.length)];
         buttonType = "choice2";
     }
 
-    const audioFilenameBase = wordObject[1]; // transliteration
     const audioFilename = `${audioFilenameBase}_${voiceName}`;
     
     if (audioFilenameBase && audioPlayer) {
         // Get the correct file extension for this word
-        const voiceData = availableVoices.value[audioFilenameBase];
         const extension = voiceData?.extension || 'wav';
         
         // Construct path using tree structure: audioBasePath/word/word_voicename.extension
@@ -702,66 +708,62 @@ function skipPair() {
     }
 }
 
+async function loadAudioManifest() {
+    /**
+     * Load the audio manifest JSON file that contains all available audio files.
+     */
+    if (audioManifest.value) {
+        return audioManifest.value;
+    }
+
+    try {
+        const response = await fetch(`${import.meta.env.BASE_URL}audio/audio_manifest.json`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        audioManifest.value = await response.json();
+        console.log(`Loaded audio manifest: ${audioManifest.value.total_words} words, ${audioManifest.value.total_files} files`);
+        return audioManifest.value;
+    } catch (error) {
+        console.error("Failed to load audio manifest:", error);
+        audioManifest.value = { words: {} }; // Empty fallback
+        return audioManifest.value;
+    }
+}
+
 async function discoverAvailableRecordings(transliteration) {
     /**
-     * Discover available audio recordings for a word in tree structure.
+     * Get available audio recordings for a word from the manifest.
      * Returns object with available voices: { voices: [...], extension: 'mp3'|'wav' }
      */
     if (audioCache.value[transliteration]) {
         return audioCache.value[transliteration];
     }
 
-    const baseAppUrl = import.meta.env.BASE_URL || '/';
-    const availableVoices = [];
-    let extension = 'wav'; // Default to wav
+    // Ensure manifest is loaded
+    await loadAudioManifest();
     
-    // List of all possible voice names (based on our audio generation script)
-    const voiceNames = [
-        // Chirp3-HD voices (minimal names without language prefix)
-        'chirp3-hd-achernar', 'chirp3-hd-achird', 'chirp3-hd-algenib', 'chirp3-hd-algieba',
-        'chirp3-hd-alnilam', 'chirp3-hd-aoede', 'chirp3-hd-autonoe', 'chirp3-hd-callirrhoe',
-        'chirp3-hd-charon', 'chirp3-hd-despina', 'chirp3-hd-enceladus', 'chirp3-hd-erinome',
-        'chirp3-hd-fenrir', 'chirp3-hd-gacrux', 'chirp3-hd-iapetus', 'chirp3-hd-kore',
-        'chirp3-hd-laomedeia', 'chirp3-hd-leda', 'chirp3-hd-orus', 'chirp3-hd-puck',
-        'chirp3-hd-pulcherrima', 'chirp3-hd-rasalgethi', 'chirp3-hd-sadachbia', 'chirp3-hd-sadaltager',
-        'chirp3-hd-schedar', 'chirp3-hd-sulafat', 'chirp3-hd-umbriel',
-        // Wavenet voices
-        'wavenet-a', 'wavenet-b', 'wavenet-c', 'wavenet-d'
-    ];
+    // Get data from manifest
+    const manifestData = audioManifest.value.words[transliteration];
     
-    // Try both file extensions: wav first, then mp3
-    const extensions = ['wav', 'mp3'];
-    
-    for (const ext of extensions) {
-        const voices = [];
-        
-        // Check for each voice name
-        for (const voiceName of voiceNames) {
-            const audioPath = `${baseAppUrl}${audioBasePath.value}/${transliteration}/${transliteration}_${voiceName}.${ext}`.replace(/\/\//g, '/');
-            
-            try {
-                const response = await fetch(audioPath, { method: 'HEAD' });
-                if (response.ok) {
-                    voices.push(voiceName);
-                }
-            } catch (error) {
-                // Network error or file not found, continue to next voice
-                continue;
-            }
-        }
-        
-        if (voices.length > 0) {
-            availableVoices.push(...voices);
-            extension = ext;
-            break; // Use the first extension that has files
-        }
+    let result;
+    if (manifestData) {
+        result = {
+            voices: manifestData.voices,
+            extension: manifestData.extension
+        };
+    } else {
+        // Fallback if word not found in manifest
+        result = {
+            voices: ['chirp3-hd-aoede'], // Default voice
+            extension: 'wav'
+        };
     }
     
     // Cache the result
-    const result = { voices: availableVoices, extension };
     audioCache.value[transliteration] = result;
     
-    console.log(`Discovered ${availableVoices.length} ${extension} voices for "${transliteration}": [${availableVoices.join(', ')}]`);
+    console.log(`Found ${result.voices.length} ${result.extension} voices for "${transliteration}": [${result.voices.join(', ')}]`);
     return result;
 }
 
