@@ -27,7 +27,7 @@ export default defineConfig({
       // `paths` is an array of existing static routes
       // `routes` is the raw route records
       // You can add more paths to be rendered
-      return paths.concat(['/practice/bn-IN', '/practice/bn_IN']); // Add both variants if needed
+      return paths.concat(['/bn-IN']); // Simplified route structure
     },
   },
 })

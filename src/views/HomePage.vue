@@ -18,7 +18,7 @@
                 <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">Available Languages</h2>
                 <div class="flex flex-wrap justify-center gap-6">
                     <!-- Bengali Card -->
-                    <router-link to="/practice/bn-IN"
+                    <router-link to="/bn-IN"
                         class="language-card bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out w-full sm:w-1/2 md:w-1/3 lg:w-1/4 cursor-pointer">
                         <h3 class="text-xl font-semibold text-blue-600">Bangla (বাংলা) 🇮🇳 </h3>
                         <p class="text-gray-600 mt-2">Kolkata style Bengali</p>

@@ -9,7 +9,7 @@ export const routes = [
         component: HomePage,
     },
     {
-        path: '/practice/:langCode', // e.g., /practice/bn-IN
+        path: '/:langCode', // e.g., /bn-IN (simpler, cleaner URLs)
         name: 'LanguagePractice',
         component: LanguagePractice,
         props: true, // Passes route.params as props to the component
