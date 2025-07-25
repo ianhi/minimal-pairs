@@ -447,10 +447,13 @@ async function startNewRound() {
         const targetVoice = targetPool[Math.floor(Math.random() * targetPool.length)];
         selections.target = targetVoice;
         
-        // Remove the selected voice from the pool for sampling without replacement
-        const targetIndex = targetPool.indexOf(targetVoice);
-        if (targetIndex > -1) {
-            targetPool.splice(targetIndex, 1);
+        // Remove the target voice from ALL word pools to ensure choices never use it
+        for (const transliteration in wordPools) {
+            const pool = wordPools[transliteration];
+            const voiceIndex = pool.indexOf(targetVoice);
+            if (voiceIndex > -1) {
+                pool.splice(voiceIndex, 1);
+            }
         }
         
         // Select voices for choice words
@@ -461,20 +464,23 @@ async function startNewRound() {
         const choice1Pool = wordPools[choice1Word];
         const choice1Voice = choice1Pool.length > 0 
             ? choice1Pool[Math.floor(Math.random() * choice1Pool.length)]
-            : availableVoices.value[choice1Word]?.voices?.[0] || 'chirp3-hd-aoede';
+            : availableVoices.value[choice1Word]?.voices?.find(v => v !== targetVoice) || 'chirp3-hd-aoede';
         selections.choice1 = choice1Voice;
         
-        // Remove selected voice from pool
-        const choice1Index = choice1Pool.indexOf(choice1Voice);
-        if (choice1Index > -1) {
-            choice1Pool.splice(choice1Index, 1);
+        // Remove selected voice from ALL pools
+        for (const transliteration in wordPools) {
+            const pool = wordPools[transliteration];
+            const voiceIndex = pool.indexOf(choice1Voice);
+            if (voiceIndex > -1) {
+                pool.splice(voiceIndex, 1);
+            }
         }
         
         // Choice 2
         const choice2Pool = wordPools[choice2Word];
         const choice2Voice = choice2Pool.length > 0 
             ? choice2Pool[Math.floor(Math.random() * choice2Pool.length)]
-            : availableVoices.value[choice2Word]?.voices?.[0] || 'chirp3-hd-aoede';
+            : availableVoices.value[choice2Word]?.voices?.find(v => v !== targetVoice && v !== choice1Voice) || 'chirp3-hd-aoede';
         selections.choice2 = choice2Voice;
         
         return selections;
