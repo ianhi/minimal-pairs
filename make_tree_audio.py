@@ -231,14 +231,12 @@ def process_word_recording(
                         }
             else:
                 if attempt < max_retries - 1:
-                    voice_config = generate_random_voice_config(base_audio_config)
                     continue
                 else:
                     return {"status": "failed", "reason": "No audio splits found"}
                     
         except Exception as e:
             if attempt < max_retries - 1:
-                voice_config = generate_random_voice_config(base_audio_config)
                 continue
             else:
                 return {"status": "failed", "reason": str(e)}
