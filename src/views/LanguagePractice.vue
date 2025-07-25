@@ -14,7 +14,7 @@
         <div class="flex flex-col items-center gap-4">
             <p class="text-lg text-gray-600">Click "Play Word" to hear one of the words, then choose which one you
                 heard.</p>
-            <div id="playingStatus" class="playing-indicator" :class="{ 'hidden': !playingStatusText }">{{
+            <div id="playingStatus" class="playing-indicator debug-message" :class="{ 'hidden': !playingStatusText }">{{
                 playingStatusText }}</div>
             <button id="playButton" ref="playButtonRef" @click="playCorrectWord" :disabled="!canPlay"
                 class="button-primary w-full max-w-xs">
@@ -114,6 +114,7 @@ const userSelectedButtonElement = ref(null);
 const gameHistory = ref([]);
 const currentFilteredPairs = ref([]);
 const nextPairToPrefetch = ref(null); // Stores the {pair, audioBasePath} for the *next* round
+const audioBasePath = ref(''); // Base path for all audio files for current language
 
 
 const settings = reactive({
@@ -150,9 +151,21 @@ let currentPlayback = reactive({
 const prefetchLinkWord1 = ref(null);
 const prefetchLinkWord2 = ref(null);
 
+// Cache for discovered audio files per word
+const audioCache = ref({});
+
 const word1 = computed(() => currentPair.value ? currentPair.value.find(p => p[0] === shuffledWords.value[0]?.[0]) : null);
 const word2 = computed(() => currentPair.value ? currentPair.value.find(p => p[0] === shuffledWords.value[1]?.[0]) : null);
 const shuffledWords = ref([]);
+// Track which voice to use for each word (target vs. choice)
+const wordVoiceSelections = ref({
+    target: null, // Voice name to use for target word
+    choice1: null, // Voice name to use for first choice
+    choice2: null  // Voice name to use for second choice
+});
+
+// Track available voices for current words
+const availableVoices = ref({});
 
 const canPlay = computed(() => currentFilteredPairs.value.length > 0 && !isPlayingAudio.value);
 const canSelectWord = computed(() => currentFilteredPairs.value.length > 0 && !isPlayingAudio.value);
@@ -186,6 +199,7 @@ function initializeGameForLanguage(langCode) {
         showDataError.value = true;
         currentFilteredPairs.value = [];
         languageSpecificDefaultAudioPath.value = '';
+        audioBasePath.value = '';
         currentPair.value = null;
         correctWord.value = null;
         availableTypes.value = [];
@@ -196,6 +210,7 @@ function initializeGameForLanguage(langCode) {
     activeMinimalPairsData.value = langData.types;
     pageTitle.value = langData.languageName ? `${langData.languageName} Minimal Pairs` : "Minimal Pairs Practice";
     languageSpecificDefaultAudioPath.value = langData.defaultAudioBasePath || `audio/${langCode}/aligned`;
+    audioBasePath.value = langData.audioBasePath || `audio/${langCode}`;
 
     showDataError.value = false;
     dataErrorMessage.value = '';
@@ -264,20 +279,16 @@ function handleTypeChange() {
     if (type === 'All') {
         Object.values(activeMinimalPairsData.value).forEach(typeData => {
             if (typeData && typeData.pairs && typeData.pairs.length > 0) {
-                const basePath = typeData.path || languageSpecificDefaultAudioPath.value;
-                if (!basePath) console.warn(`No audio base path for type in 'All', lang: ${props.langCode}`);
                 typeData.pairs.forEach(pair => {
-                    currentFilteredPairs.value.push({ pair: pair, audioBasePath: basePath });
+                    currentFilteredPairs.value.push({ pair: pair, audioBasePath: audioBasePath.value });
                 });
             }
         });
     } else {
         const typeData = activeMinimalPairsData.value[type];
         if (typeData && typeData.pairs && typeData.pairs.length > 0) {
-            const basePath = typeData.path || languageSpecificDefaultAudioPath.value;
-            if (!basePath) console.warn(`No audio base path for type: ${type}, lang: ${props.langCode}`);
             typeData.pairs.forEach(pair => {
-                currentFilteredPairs.value.push({ pair: pair, audioBasePath: basePath });
+                currentFilteredPairs.value.push({ pair: pair, audioBasePath: audioBasePath.value });
             });
         } else {
             // console.warn(`No pairs found for type: ${type} or typeData is missing.`);
@@ -301,28 +312,42 @@ function updateAudioPrefetchLinks(word1Obj, word2Obj, audioBasePath) {
     const baseAppUrl = import.meta.env.BASE_URL || '/'; // Ensure base URL ends with a slash if not root
 
     // Prefetch for word1 if audio is available
-    if (word1Obj && word1Obj[1] && audioBasePath) { // word1Obj[1] is the audioFilenameBase
-        const link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = `${baseAppUrl}${audioBasePath}/${word1Obj[1]}.mp3`.replace(/\/\//g, '/'); // Avoid double slashes
-        link.as = 'audio';
-        document.head.appendChild(link);
-        prefetchLinkWord1.value = link;
-        // console.log('Vue: Prefetching audio:', link.href);
+    if (word1Obj && word1Obj[1] && audioBasePath) { // word1Obj[1] is the transliteration
+        const transliteration = word1Obj[1];
+        const voiceData = availableVoices.value[transliteration];
+        if (voiceData && voiceData.voices.length > 0) {
+            const voiceName = voiceData.voices[0]; // Use first available voice for prefetch
+            const extension = voiceData.extension;
+            const audioFilename = `${transliteration}_${voiceName}`;
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = `${baseAppUrl}${audioBasePath}/${transliteration}/${audioFilename}.${extension}`.replace(/\/\//g, '/');
+            link.as = 'audio';
+            document.head.appendChild(link);
+            prefetchLinkWord1.value = link;
+            // console.log('Vue: Prefetching audio:', link.href);
+        }
     }
 
     // Prefetch for word2 if audio is available
-    if (word2Obj && word2Obj[1] && audioBasePath) { // word2Obj[1] is the audioFilenameBase
-        const link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = `${baseAppUrl}${audioBasePath}/${word2Obj[1]}.mp3`.replace(/\/\//g, '/'); // Avoid double slashes
-        link.as = 'audio';
-        document.head.appendChild(link);
-        prefetchLinkWord2.value = link;
-        // console.log('Vue: Prefetching audio:', link.href);
+    if (word2Obj && word2Obj[1] && audioBasePath) { // word2Obj[1] is the transliteration
+        const transliteration = word2Obj[1];
+        const voiceData = availableVoices.value[transliteration];
+        if (voiceData && voiceData.voices.length > 0) {
+            const voiceName = voiceData.voices[0]; // Use first available voice for prefetch
+            const extension = voiceData.extension;
+            const audioFilename = `${transliteration}_${voiceName}`;
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = `${baseAppUrl}${audioBasePath}/${transliteration}/${audioFilename}.${extension}`.replace(/\/\//g, '/');
+            link.as = 'audio';
+            document.head.appendChild(link);
+            prefetchLinkWord2.value = link;
+            // console.log('Vue: Prefetching audio:', link.href);
+        }
     }
 }
-function startNewRound() {
+async function startNewRound() {
     feedbackText.value = '';
     feedbackClass.value = 'text-xl mt-4';
     playingStatusText.value = '';
@@ -368,6 +393,80 @@ function startNewRound() {
     const tempShuffled = [...currentPair.value].sort(() => Math.random() - 0.5);
     shuffledWords.value = tempShuffled;
     correctWord.value = currentPair.value[Math.floor(Math.random() * currentPair.value.length)];
+
+    // Discover available voices for each word in the current pair
+    availableVoices.value = {};
+    for (const word of currentPair.value) {
+        const transliteration = word[1];
+        const voiceData = await discoverAvailableRecordings(transliteration);
+        availableVoices.value[transliteration] = voiceData;
+    }
+
+    // Function to select voices ensuring different voices for target vs choices
+    const selectVoices = () => {
+        const selections = {};
+        
+        // For each unique word, create a pool of available voices
+        const wordPools = {};
+        for (const word of currentPair.value) {
+            const transliteration = word[1];
+            const voiceData = availableVoices.value[transliteration];
+            if (!wordPools[transliteration]) {
+                wordPools[transliteration] = [...(voiceData?.voices || ['chirp3-hd-aoede'])];
+            }
+        }
+        
+        // Select voice for target word
+        const targetWord = correctWord.value[1];
+        const targetPool = wordPools[targetWord];
+        const targetVoice = targetPool[Math.floor(Math.random() * targetPool.length)];
+        selections.target = targetVoice;
+        
+        // Remove the selected voice from the pool for sampling without replacement
+        const targetIndex = targetPool.indexOf(targetVoice);
+        if (targetIndex > -1) {
+            targetPool.splice(targetIndex, 1);
+        }
+        
+        // Select voices for choice words
+        const choice1Word = shuffledWords.value[0][1];
+        const choice2Word = shuffledWords.value[1][1];
+        
+        // Choice 1
+        const choice1Pool = wordPools[choice1Word];
+        const choice1Voice = choice1Pool.length > 0 
+            ? choice1Pool[Math.floor(Math.random() * choice1Pool.length)]
+            : availableVoices.value[choice1Word]?.voices?.[0] || 'chirp3-hd-aoede';
+        selections.choice1 = choice1Voice;
+        
+        // Remove selected voice from pool
+        const choice1Index = choice1Pool.indexOf(choice1Voice);
+        if (choice1Index > -1) {
+            choice1Pool.splice(choice1Index, 1);
+        }
+        
+        // Choice 2
+        const choice2Pool = wordPools[choice2Word];
+        const choice2Voice = choice2Pool.length > 0 
+            ? choice2Pool[Math.floor(Math.random() * choice2Pool.length)]
+            : availableVoices.value[choice2Word]?.voices?.[0] || 'chirp3-hd-aoede';
+        selections.choice2 = choice2Voice;
+        
+        return selections;
+    };
+    
+    wordVoiceSelections.value = selectVoices();
+    
+    // DEBUG: Log the current pair and voice selections
+    console.log("=== NEW ROUND ===");
+    console.log("Correct word:", correctWord.value?.[0]);
+    console.log("Word 1:", word1.value?.[0]);
+    console.log("Word 2:", word2.value?.[0]);
+    console.log("Available voices:", availableVoices.value);
+    console.log("Voice selections:", wordVoiceSelections.value);
+    console.log(`Target voice: ${correctWord.value?.[1]}_${wordVoiceSelections.value.target}`);
+    console.log(`Choice 1 voice: ${word1.value?.[1]}_${wordVoiceSelections.value.choice1}`);
+    console.log(`Choice 2 voice: ${word2.value?.[1]}_${wordVoiceSelections.value.choice2}`);
 
     // --- Determine and store the *new* next pair for the *subsequent* round, then prefetch it ---
     if (currentFilteredPairs.value.length > 1) {
@@ -418,21 +517,58 @@ function speakWord(wordObject, originatorButton, onEndCallback) {
         return;
     }
 
-    const audioFilenameBase = wordObject[1];
-    if (audioFilenameBase && audioPlayer) {
-        // Construct path relative to the deployment base URL
-        // import.meta.env.BASE_URL will be like '/' or '/minimal-pairs/'
-        // currentPairAudioBasePath.value is like 'audio/aligned'
-        const audioPath = `${import.meta.env.BASE_URL}${currentPairAudioBasePath.value}/${audioFilenameBase}.mp3`;
+    // Determine which voice to use based on whether this is the target word or a choice
+    let voiceName = 'chirp3-hd-aoede'; // Default voice
+    let buttonType = "unknown";
+    
+    // If this is the target word (played from the play button)
+    if (originatorButton === playButtonRef.value) {
+        voiceName = wordVoiceSelections.value.target;
+        buttonType = "target";
+    } 
+    // If this is a choice word (played when clicking on a word option)
+    else if (wordObject[0] === word1.value?.[0]) {
+        voiceName = wordVoiceSelections.value.choice1;
+        buttonType = "choice1";
+    } 
+    else if (wordObject[0] === word2.value?.[0]) {
+        voiceName = wordVoiceSelections.value.choice2;
+        buttonType = "choice2";
+    }
 
-        currentPlayback.isMP3 = true;
+    const audioFilenameBase = wordObject[1]; // transliteration
+    const audioFilename = `${audioFilenameBase}_${voiceName}`;
+    
+    if (audioFilenameBase && audioPlayer) {
+        // Get the correct file extension for this word
+        const voiceData = availableVoices.value[audioFilenameBase];
+        const extension = voiceData?.extension || 'wav';
+        
+        // Construct path using tree structure: audioBasePath/word/word_voicename.extension
+        // import.meta.env.BASE_URL will be like '/' or '/minimal-pairs/'
+        const audioPath = `${import.meta.env.BASE_URL}${currentPairAudioBasePath.value}/${audioFilenameBase}/${audioFilename}.${extension}`;
+
+        // DEBUG: Show which file is being played
+        const debugInfo = `
+            Playing: ${audioFilename}.${extension}
+            Word: ${wordObject[0]}
+            Button: ${buttonType}
+            Voice: ${voiceName} of ${availableVoices.value[audioFilenameBase]?.voices?.length || 'unknown'} available
+            Is Correct Word: ${wordObject[0] === correctWord.value?.[0] ? 'Yes' : 'No'}
+        `;
+        console.log(debugInfo);
+        playingStatusText.value = `Playing: ${audioFilename}.${extension} (Voice: ${voiceName})`;
+
+        currentPlayback.isMP3 = true; // Still using this flag for "has audio file" vs TTS
         audioPlayer.src = audioPath;
         audioPlayer.play().catch(e => {
-            console.error(`MP3 play() catch for ${audioPath}:`, e);
+            console.error(`Audio play() catch for ${audioPath}:`, e);
             handleAudioPlayerError();
         });
     } else {
         currentPlayback.isMP3 = false;
+        console.log(`Using TTS fallback for: ${wordObject[0]}`);
+        playingStatusText.value = `Using TTS for: ${wordObject[0]}`;
         speakWordTTS(wordObject[0], originatorButton, onEndCallback);
     }
 }
@@ -474,7 +610,10 @@ function finalizePlayback(success) {
         const errorType = isMP3 ? "MP3 Audio" : "Speech Synthesis";
         playingStatusText.value = `Error playing word. (${errorType})`;
     } else {
-        playingStatusText.value = '';
+        // Clear the debug message after a short delay so user can see it
+        setTimeout(() => {
+            playingStatusText.value = '';
+        }, 1000);
     }
 
     if (onEndCallback) {
@@ -484,6 +623,9 @@ function finalizePlayback(success) {
     currentPlayback.originatorButton = null;
     currentPlayback.wordObject = null;
     currentPlayback.isMP3 = false;
+    
+    // DEBUG: Log when playback is complete
+    console.log("Playback complete");
 }
 
 function playCorrectWord() {
@@ -560,6 +702,69 @@ function skipPair() {
     }
 }
 
+async function discoverAvailableRecordings(transliteration) {
+    /**
+     * Discover available audio recordings for a word in tree structure.
+     * Returns object with available voices: { voices: [...], extension: 'mp3'|'wav' }
+     */
+    if (audioCache.value[transliteration]) {
+        return audioCache.value[transliteration];
+    }
+
+    const baseAppUrl = import.meta.env.BASE_URL || '/';
+    const availableVoices = [];
+    let extension = 'wav'; // Default to wav
+    
+    // List of all possible voice names (based on our audio generation script)
+    const voiceNames = [
+        // Chirp3-HD voices (minimal names without language prefix)
+        'chirp3-hd-achernar', 'chirp3-hd-achird', 'chirp3-hd-algenib', 'chirp3-hd-algieba',
+        'chirp3-hd-alnilam', 'chirp3-hd-aoede', 'chirp3-hd-autonoe', 'chirp3-hd-callirrhoe',
+        'chirp3-hd-charon', 'chirp3-hd-despina', 'chirp3-hd-enceladus', 'chirp3-hd-erinome',
+        'chirp3-hd-fenrir', 'chirp3-hd-gacrux', 'chirp3-hd-iapetus', 'chirp3-hd-kore',
+        'chirp3-hd-laomedeia', 'chirp3-hd-leda', 'chirp3-hd-orus', 'chirp3-hd-puck',
+        'chirp3-hd-pulcherrima', 'chirp3-hd-rasalgethi', 'chirp3-hd-sadachbia', 'chirp3-hd-sadaltager',
+        'chirp3-hd-schedar', 'chirp3-hd-sulafat', 'chirp3-hd-umbriel',
+        // Wavenet voices
+        'wavenet-a', 'wavenet-b', 'wavenet-c', 'wavenet-d'
+    ];
+    
+    // Try both file extensions: wav first, then mp3
+    const extensions = ['wav', 'mp3'];
+    
+    for (const ext of extensions) {
+        const voices = [];
+        
+        // Check for each voice name
+        for (const voiceName of voiceNames) {
+            const audioPath = `${baseAppUrl}${audioBasePath.value}/${transliteration}/${transliteration}_${voiceName}.${ext}`.replace(/\/\//g, '/');
+            
+            try {
+                const response = await fetch(audioPath, { method: 'HEAD' });
+                if (response.ok) {
+                    voices.push(voiceName);
+                }
+            } catch (error) {
+                // Network error or file not found, continue to next voice
+                continue;
+            }
+        }
+        
+        if (voices.length > 0) {
+            availableVoices.push(...voices);
+            extension = ext;
+            break; // Use the first extension that has files
+        }
+    }
+    
+    // Cache the result
+    const result = { voices: availableVoices, extension };
+    audioCache.value[transliteration] = result;
+    
+    console.log(`Discovered ${availableVoices.length} ${extension} voices for "${transliteration}": [${availableVoices.join(', ')}]`);
+    return result;
+}
+
 function resetGame() {
     window.speechSynthesis.cancel();
     score.value = 0;
@@ -593,7 +798,20 @@ function handleAudioPlayerError() {
     currentPlayback.isMP3 = false;
 
     if (wordToSpeak && typeof wordToSpeak[0] === 'string' && originator) {
-        console.warn(`MP3 error for ${wordToSpeak[1]}, attempting TTS fallback for: ${wordToSpeak[0]}`);
+        // Determine which voice was being attempted
+        let voiceName = 'chirp3-hd-aoede';
+        if (originator === playButtonRef.value) {
+            voiceName = wordVoiceSelections.value.target;
+        } else if (wordToSpeak[0] === word1.value?.[0]) {
+            voiceName = wordVoiceSelections.value.choice1;
+        } else if (wordToSpeak[0] === word2.value?.[0]) {
+            voiceName = wordVoiceSelections.value.choice2;
+        }
+        
+        const voiceData = availableVoices.value[wordToSpeak[1]];
+        const extension = voiceData?.extension || 'wav';
+        const audioFilename = `${wordToSpeak[1]}_${voiceName}.${extension}`;
+        console.warn(`Audio error for ${audioFilename}, attempting TTS fallback for: ${wordToSpeak[0]}`);
         speakWordTTS(wordToSpeak[0], originator, originalCallback);
     } else {
         finalizePlayback(false); // Cannot fallback
@@ -670,6 +888,20 @@ onMounted(async () => {
 .bg-red-500-custom {
     background-color: #ef4444 !important;
     color: white !important;
+}
+
+/* Debug message styling */
+.debug-message {
+    background-color: #f0f9ff;
+    border: 1px solid #93c5fd;
+    color: #1e40af;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    font-family: monospace;
+    font-size: 0.875rem;
+    margin: 0.5rem 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 /* History item styles are within HistoryModal.vue, but if there were overrides: */
