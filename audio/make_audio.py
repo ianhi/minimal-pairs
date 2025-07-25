@@ -34,7 +34,7 @@ def synthesize_raw_audio(
     # Names of voices can be retrieved with client.list_voices().
     voice = texttospeech.VoiceSelectionParams(
         language_code="bn-IN",
-        name="bn-IN-Wavenet-D"
+        name="bn-IN-Wavenet-D",
         # name="bn-IN-Chirp3-HD-Aoede",
     )
 
@@ -60,6 +60,7 @@ def synthesize_raw_audio(
     end_time = time.time()
 
     import io
+
     sample_rate, samples = wavfile.read(io.BytesIO(response.audio_content))
 
     return sample_rate, samples
@@ -71,13 +72,14 @@ def synthesize_raw_audio(
 
 if __name__ == "__main__":
     import json
-    json_filepath = Path("..", "public", "audio", "minimal_pairs_db.json")
+
+    json_filepath = Path("public", "audio", "minimal_pairs_db.json")
     with open(json_filepath, "r", encoding="utf-8") as f:
         data = json.load(f)
-    data = data['bn-IN']['types']["Dental ত vs. Retroflex ট"]
+    data = data["bn-IN"]["types"]["Dental ত vs. Retroflex ট"]
     # data = data['bn-IN']['types']["Oral vs. Nasalized Vowels"]
     # data = data['bn-IN']['types']["Aspirated vs Unaspirated Voiceless"]
-    OUTPUT_DIR = Path("generated_audio") / "bn-IN" / Path(data['path']).name
+    OUTPUT_DIR = Path("generated_audio") / "bn-IN" / Path(data["path"]).name
     OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
 
     # Define consistent audio parameters for all words
@@ -88,12 +90,12 @@ if __name__ == "__main__":
     )
 
     for i, pair in enumerate(data["pairs"]):
-    # pairs = [["তার", "tar"], ["টার", "ttar"]],
-    # for i, pair in enumerate(pairs):
+        # pairs = [["তার", "tar"], ["টার", "ttar"]],
+        # for i, pair in enumerate(pairs):
         print(f"Synthesizing Pair {i + 1}/{len(data['pairs'])}")
         print(f" - {pair[0][0]} - {pair[1][0]}")
-        word =f'{pair[0][0]} <break time="500ms"/> {pair[1][0]}'
-        word =f'{pair[0][0]}           {pair[1][0]}'
+        word = f'{pair[0][0]} <break time="500ms"/> {pair[1][0]}'
+        word = f"{pair[0][0]}           {pair[1][0]}"
         word = f"""
         <speak>
             <prosody pitch="0st" range="low" rate="1.0">{pair[0][0]}।</prosody>
@@ -102,9 +104,9 @@ if __name__ == "__main__":
             # <prosody pitch="0st" range="low" rate="1.0">{pair[1][0]}।</prosody>
         </speak>
         """
-            # <prosody pitch="0st" range="low" rate="1.0">তার  টার</prosody>
-            # <break time="500ms"/>
-            # <prosody pitch="0st" range="low" rate="1.0">টার</prosody>
+        # <prosody pitch="0st" range="low" rate="1.0">তার  টার</prosody>
+        # <break time="500ms"/>
+        # <prosody pitch="0st" range="low" rate="1.0">টার</prosody>
         sample_rate, samples = synthesize_raw_audio(
             word,
             "out.wav",
@@ -114,15 +116,24 @@ if __name__ == "__main__":
             effects_profile_id=consistent_effects_profile,
         )
         import soundfile as sf
-        sf.write("out.wav",samples, sample_rate)
+
+        sf.write("out.wav", samples, sample_rate)
 
         splits = librosa.effects.split(samples, top_db=40)
 
-
         try:
             assert splits.shape[0] == 2
-            sf.write(f"../public/{data['path']}/{pair[0][1]}.mp3",samples[splits[0][0]:splits[0][1]], sample_rate)
-            sf.write(f"../public/{data['path']}/{pair[1][1]}.mp3",samples[splits[1][0]:splits[1][1]], sample_rate)
+            sf.write(
+                f"../public/{data['path']}/{pair[0][1]}.mp3",
+                samples[splits[0][0] : splits[0][1]],
+                sample_rate,
+            )
+            sf.write(
+                f"../public/{data['path']}/{pair[1][1]}.mp3",
+                samples[splits[1][0] : splits[1][1]],
+                sample_rate,
+            )
         except AssertionError:
             print(pair)
             print(splits)
+

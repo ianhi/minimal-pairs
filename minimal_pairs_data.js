@@ -34,7 +34,6 @@ export const allMinimalPairsData = {
     //     ]
     // },
     "Oral vs. Nasalized Vowels": {
-        path: "audio/bn-IN/oral-nasal",
         pairs: [[["কাঁদা", "kãda"], ["কাদা", "kada"]],
         [["বাঁশ", "bãsh"], ["বাস", "bash"]],
         [["আঁশ", "ãsh"], ["আশ", "ash"]],
@@ -75,7 +74,6 @@ export const allMinimalPairsData = {
     //     ]
     // },
     "Dental ত vs. Retroflex ট": {
-        path: "audio/bn-IN/dental-retroflex",
         pairs: [
             [["তাল", "tal"], ["টাল", "ttal"]],
             [["দান", "dan"], ["ডান", "ddan"]],
