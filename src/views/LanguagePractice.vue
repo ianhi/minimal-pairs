@@ -562,13 +562,21 @@ function speakWord(wordObject, originatorButton, onEndCallback) {
         buttonType = "target";
     } 
     // If this is a choice word (played when clicking on a word option)
-    // Randomly select a new voice each time for variety
+    // Randomly select a new voice each time for variety, but exclude target voice
     else if (wordObject[0] === word1.value?.[0]) {
-        voiceName = availableVoicesForWord[Math.floor(Math.random() * availableVoicesForWord.length)];
+        const targetVoice = wordVoiceSelections.value.target;
+        const availableChoices = availableVoicesForWord.filter(v => v !== targetVoice);
+        voiceName = availableChoices.length > 0 
+            ? availableChoices[Math.floor(Math.random() * availableChoices.length)]
+            : availableVoicesForWord[0]; // Fallback to any voice if filtering leaves none
         buttonType = "choice1";
     } 
     else if (wordObject[0] === word2.value?.[0]) {
-        voiceName = availableVoicesForWord[Math.floor(Math.random() * availableVoicesForWord.length)];
+        const targetVoice = wordVoiceSelections.value.target;
+        const availableChoices = availableVoicesForWord.filter(v => v !== targetVoice);
+        voiceName = availableChoices.length > 0 
+            ? availableChoices[Math.floor(Math.random() * availableChoices.length)]
+            : availableVoicesForWord[0]; // Fallback to any voice if filtering leaves none
         buttonType = "choice2";
     }
 
