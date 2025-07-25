@@ -1,0 +1,15 @@
+name = "minimal-pairs"
+main = "src/worker.ts"
+compatibility_date = "2025-07-01"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npm run build"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+[[routes]]
+pattern = "ianhuntisaak.com/language-learning/minimal-pairs/*"
+zone_name = "ianhuntisaak.com"

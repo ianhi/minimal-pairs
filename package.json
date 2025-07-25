@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite-ssg build && npm run audio2dist",
+    "build": "vite build && npm run audio2dist",
+    "build:worker": "npm run build",
     "preview": "vite preview",
     "audio2dist": "cpx \"public/audio/**/*\" \"dist/audio\"",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "wrangler deploy",
+    "wrangler:dev": "wrangler dev",
+    "cf:login": "wrangler login"
   },
   "dependencies": {
     "@primeuix/themes": "^1.1.1",
@@ -30,6 +33,7 @@
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
     "vite-ssg": "^27.0.1",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^2.2.8",
+    "wrangler": "^4.26.0"
   }
 }
